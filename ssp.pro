@@ -193,4 +193,5 @@ RESOURCES += \
     pokerth/gui/qt/resources/images.qrc \
     pokerth/gui/qt/resources/pokerth.qrc \
     edit/edit.qrc \
-    play/resources/sounds.qrc
+    play/resources/sounds.qrc \
+    resources/fonts.qrc

@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include <QApplication>
+#include <QFontDatabase>
 
 #include <configfile.h>
 #include <log.h>
@@ -18,6 +19,9 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     a.setStyle("fusion");
+
+    int r1 = QFontDatabase::addApplicationFont(":/fonts/UbuntuMono-R.ttf");
+    int r2 = QFontDatabase::addApplicationFont(":/fonts/Ubuntu-R.ttf");
 
     ConfigFile *myConfig = new ConfigFile(argv[0], false);
     Log *myLog = new Log(myConfig);
