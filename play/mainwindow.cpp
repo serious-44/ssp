@@ -94,7 +94,7 @@ void MainWindow::closeEvent(QCloseEvent *event) {
         QIcon icon(":/misc/program.png");
         QMessageBox msgBox;
         msgBox.setWindowIcon(icon);
-        msgBox.setText("Really Quit?");
+        msgBox.setText("Really Close?");
         msgBox.setWindowTitle("Serious!");
         if (saveText && inGame) {
             msgBox.setInformativeText("Do you want to save the edited ts file?\nDo you want to close the current game?");
