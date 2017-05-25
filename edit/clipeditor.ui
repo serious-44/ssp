@@ -1469,7 +1469,7 @@
              <property name="font">
               <font>
                <family>Ubuntu Mono</family>
-               <pointsize>12</pointsize>
+               <pointsize>11</pointsize>
               </font>
              </property>
              <property name="focusPolicy">
