@@ -1,0 +1,122 @@
+<html>
+<body>
+<h3>Content of the timestamp files</h3>
+<p>
+Each description of a clip consists of 2 lines.
+<ul>
+<li>A timestamp</li>
+<li>An action</li>
+<li>The number of clothes</li>
+<li>And optionally some modifiers.</li>
+<li>The timestamp of the next clip is also the end marker for the previous one.</li>
+</ul>
+A typicat file looks like:
+<pre><code>00:00:00:080 take 4 good
+00:00:03:840 take 4 bad
+00:00:07:360 take 4 good
+...
+00:33:02:560 off 0
+00:33:52:240 on 1
+00:34:13:560 broke 0
+00:34:50:920 - 0</code></pre>
+</p>
+<p>
+Some actions have modifiers like "take good".<br>
+And every action can have the following:
+<ul>
+<li>zoom - If the player wins, in the next round zoomed clips are shown.
+<li>quiet - the program tries to play at most one loud clip.
+<li>mute - the program does not play the sound of the clip.
+</ul>
+</p>
+<p>
+Comment lines begin with a #<br>
+There are 3 comments to describe the preview image. #preview-url, #preview-frame and #preview-crop. Other comments are ignored.
+</p>
+<p>
+The Timestamp is hours:minutes:seconds:milliseconds<br>
+</p>
+<p>
+The order of the clips is a little bit random. But normally first are the clips with 4 pieces of cloth, 3 pieces, 2 pieces... At the end follows the intro clip, the striptease clips and the broke clip.<br>
+You will see some black frames between the clips. Mark them as 1-frame garbage clips.
+</p>
+<h3>Create a new timestamp file</h3>
+<p>
+If you open a new *.avi video file, you will see a single timestamp in the text editor.
+<ul>
+<li>Yellow background -- The video stoped at this timestamp.</li>
+<li>Underline -- New text will be added to this line.</li>
+<li>Red color -- This is an illegal line.</li>
+</ul>
+</p>
+<p>
+To add a clip desctiption, position the video at the first frame of the next clip.<br>
+Check the "Add" and the "Autosnap" checkboxes.
+<ul>
+<li>Make sure you see the first frame of the first clip.</li>
+<li>Make sure the text editor contains the correct timestamp and the line is underlined.</li>
+<li>Position the video at the first frame of the next clip.</li>
+<li>Make sure the "4"-"0" radio buttons indicate the number of clothes.</li>
+<li>Make sure the "zoom" checkbox indicates the clipping.</li>
+<li>Click on the button with the most fitting description of the seen clip.</li>
+<li>The clip-editor completes the line and add a new timestamp.</li>
+<li>Repeat until all clips are processed.</li>
+<li>Make sure, there is a marker for a garbage clip after the last clip.</li>
+<li>Click on "Check" and try to avoid red error messages. (Change a "drop" to a "win" clip...)
+<li>Click on "Scan audio" button to add the "quiet" markers.</li>
+</ul>
+Some videos don't have bare-handed "show" actions. Try to reuse the striptease clips or the second half of the drop/win/lose clips. You can click the "show" button to gererate some candidates.
+</p>
+<p>
+If the video contains only 3 striptease clips, omit "2->1", "0->1" and the "1" radiobuttun.
+</p>
+<b>Save often!</b> This is an Quick & Dirty tool. No warrenty at all.
+<p>
+</p>
+<h3>Editing an existing timestamp file</h3>
+<p>
+Open a *.avi video file. If the corresponding *.ts file exists, the clipeditor loads the timestamp file.
+</p>
+<h3>Buttons</h3>
+<p>
+The buttons have tooltips. Hope it helps.
+</p>
+<p>
+The hotkeys of most buttons are plain keys without ctrl or alt. To edit the text, move your mouse over the text area. To use the hotkeys move your mouse out of the text area.<br>
+The return and space keys are also used for the active button. After navigation with the tab key, make sure, no button has the keyboard focus.
+</p>
+<h3>Enable the snap button</h3>
+<p>
+The clipeditor looks for a file with the extention *.snap2.<br>
+This file estimates the difference between the current and previous frame.<br>
+After stopping the videoplayer, the clipeditor snaps back to the frame with the highest difference.<br>
+Most of the time, this is the scene cut.
+</p>
+<p>
+You can make these files with a patched Version of a free linux programm called melt.
+</p>
+<p>
+Add a single line with the printf to <nobr>melt/mlt-6.0.0/src/modules/motion_est/filter_motion_est.c</nobr>
+<pre><code>collect_post_statistics( c );
+printf("%d\n", c->comparison_average);
+// Detect shot changes</code></pre>
+Make sure your melt uses the patched filter_motion_est.so and run:
+<pre><code>for i in *.avi; do
+    melt -filter crop top=100 bottom=100 left=400 right=400 $i -attach motion_est -consumer xml all=1 | grep "^[0-9]" >$(basename $i .avi).snap2;
+done</code></pre>
+</p>
+<h3>Previews</h3>
+<p>
+There are two sources of previews.
+<ul>
+<li>Extract previews from the video -- Just click the Trim button.</li>
+<li>Extract previews from a jpg on the net -- Edit the url. Click Fetch.</li>
+</ul>
+There are two ways to store the previews.
+<ul>
+<li>Save it to your drive next to the timestamp file -- Click Save Image.</li>
+<li>Add a instruction how to build the preview to the timestamp file -- Click Prepare.</li>
+</ul>
+</p>
+</body>
+</html>

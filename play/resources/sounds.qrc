@@ -1,0 +1,38 @@
+<RCC>
+    <qresource prefix="/sounds">
+        <file>cardPlace1.wav</file>
+        <file>cardPlace2.wav</file>
+        <file>cardPlace3.wav</file>
+        <file>cardPlace4.wav</file>
+        <file>cardSlide1.wav</file>
+        <file>cardSlide2.wav</file>
+        <file>cardSlide3.wav</file>
+        <file>cardSlide4.wav</file>
+        <file>cardSlide5.wav</file>
+        <file>cardSlide6.wav</file>
+        <file>cardSlide7.wav</file>
+        <file>cardSlide8.wav</file>
+        <file>Coins_Pouring_00.mp3</file>
+        <file>Coins_Pouring_02.mp3</file>
+        <file>Coins_Pouring_03.mp3</file>
+        <file>Coins_Pouring_10.mp3</file>
+        <file>Coins_Several_00.mp3</file>
+        <file>Coins_Several_01.mp3</file>
+        <file>Coins_Several_02.mp3</file>
+        <file>Coins_Several_09.mp3</file>
+        <file>Coins_Several_11.mp3</file>
+        <file>Coins_Several_15.mp3</file>
+        <file>Coins_Several_17.mp3</file>
+        <file>huh_1.wav</file>
+        <file>huh_2.wav</file>
+        <file>laugh-6.wav</file>
+        <file>laugh-8.wav</file>
+        <file>laugh-9.wav</file>
+        <file>laugh-10.wav</file>
+        <file>yes_1.wav</file>
+        <file>yes_2.wav</file>
+        <file>applause6.mp3</file>
+        <file>applause8.mp3</file>
+        <file>applause10.mp3</file>
+    </qresource>
+</RCC>

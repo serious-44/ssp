@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/edit">
+        <file>help.html</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>coins/0030.png</file>
+        <file>coins/0031.png</file>
+        <file>coins/0032.png</file>
+        <file>coins/0033.png</file>
+        <file>coins/0034.png</file>
+        <file>coins/0035.png</file>
+        <file>coins/0036.png</file>
+        <file>coins/0037.png</file>
+        <file>coins/0038.png</file>
+        <file>coins/0039.png</file>
+    </qresource>
+</RCC>

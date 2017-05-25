@@ -1,0 +1,1948 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ClipEditor</class>
+ <widget class="QWidget" name="ClipEditor">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>812</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="focusPolicy">
+   <enum>Qt::ClickFocus</enum>
+  </property>
+  <property name="windowTitle">
+   <string>Serious Texas Hold'em Strip Poker - Edit Timestamps</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../pokerth/gui/qt/resources/pokerth.qrc">
+    <normaloff>:/misc/program.png</normaloff>:/misc/program.png</iconset>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QWidget" name="widget_2" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>1</verstretch>
+      </sizepolicy>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_6">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QSplitter" name="splitter1">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="childrenCollapsible">
+         <bool>false</bool>
+        </property>
+        <widget class="QWidget" name="widget_6" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>1</horstretch>
+           <verstretch>1</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>4</height>
+          </size>
+         </property>
+         <property name="baseSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QWidget" name="widget" native="true">
+            <layout class="QGridLayout" name="gridLayout">
+             <property name="leftMargin">
+              <number>8</number>
+             </property>
+             <property name="topMargin">
+              <number>8</number>
+             </property>
+             <property name="rightMargin">
+              <number>8</number>
+             </property>
+             <property name="bottomMargin">
+              <number>8</number>
+             </property>
+             <item row="0" column="0">
+              <widget class="QToolButton" name="buttonOpenFile">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::TabFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Open a video&lt;/p&gt;&lt;p&gt;Key: ctrl o&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>Open</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QToolButton" name="buttonSaveTsFile">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::TabFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save the timestamp file&lt;/p&gt;&lt;p&gt;Key: ctrl s&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>Save</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="6">
+              <widget class="QCheckBox" name="buttonTrimImage">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::TabFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Trim the preview image from the net&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>Trim</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="8">
+              <widget class="QToolButton" name="buttonPrepareImage">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Add the url and triming to the text&lt;/p&gt;&lt;p&gt;Key: alt p&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>Prepare</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="8">
+              <widget class="QToolButton" name="buttonSavePreview">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::TabFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save the preview image file&lt;/p&gt;&lt;p&gt;Key: alt s&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>Save Image</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="3" colspan="2" alignment="Qt::AlignRight">
+              <widget class="QLabel" name="label_3">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Preview From Video:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QWidget" name="widget_7" native="true">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="6">
+              <widget class="QCheckBox" name="buttonTrimPreview">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::TabFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Trim the preview image from the video&lt;/p&gt;&lt;p&gt;Key: alt t&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>Trim</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="4">
+              <widget class="QToolButton" name="buttonDownloadPreview">
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Fetch ihe image from the url&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>Fetch</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2" colspan="2">
+              <widget class="QLineEdit" name="textPreviewURL">
+               <property name="text">
+                <string>http://</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0" colspan="2">
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Preview from Net:</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSplitter" name="splitter2">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>5</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="childrenCollapsible">
+             <bool>false</bool>
+            </property>
+            <widget class="ClipGraphicsView" name="videoView" native="true">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>3</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>200</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Current frame&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_4">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="widget_10" native="true">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>1</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>100</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_9">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QVideoWidget" name="videoViewStart" native="true">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>1</horstretch>
+                  <verstretch>1</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>10</width>
+                  <height>10</height>
+                 </size>
+                </property>
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Testeditor frame&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QVideoWidget" name="videoViewEnd" native="true">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>1</horstretch>
+                  <verstretch>1</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>10</width>
+                  <height>100</height>
+                 </size>
+                </property>
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Predecessor of current frame&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+          <item>
+           <widget class="QWidget" name="widget_5" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>1</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_2">
+             <item row="0" column="9">
+              <widget class="QToolButton" name="buttonOff3">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she takes her clothes off&lt;/p&gt;&lt;p&gt;Key: 3 f&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>4-&gt;3</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="10">
+              <widget class="QToolButton" name="buttonOn4">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she takes her clothes on&lt;/p&gt;&lt;p&gt;Key: 4 o&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>3-&gt;4</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QToolButton" name="buttonModGood">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she takes good cards&lt;/p&gt;&lt;p&gt;Key: g&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>good</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="5">
+              <widget class="QToolButton" name="buttonModHigh">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she performs with high cards in her hands&lt;/p&gt;&lt;p&gt;Key: h&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>high</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="7">
+              <widget class="QToolButton" name="buttonNoWCards">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she rejects a drink with cards in her hands&lt;/p&gt;&lt;p&gt;Key: j&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>cards</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="9">
+              <widget class="QToolButton" name="buttonOff2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she takes her clothes off&lt;/p&gt;&lt;p&gt;Key: 2 f&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>3-&gt;2</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="10">
+              <widget class="QToolButton" name="buttonOn3">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she takes her clothes on&lt;/p&gt;&lt;p&gt;Key: 3 o&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>2-&gt;3</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QToolButton" name="buttonModBad">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she takes bad cards&lt;/p&gt;&lt;p&gt;Key: m&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>bad</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="2">
+              <widget class="QToolButton" name="buttonModThrow">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she throws her cards (fold)&lt;/p&gt;&lt;p&gt;Key: r&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>throw</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="3">
+              <widget class="QToolButton" name="buttonModYoulose">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she says &amp;quot;you lose&amp;quot;&lt;/p&gt;&lt;p&gt;Key: q&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>youlose</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="4">
+              <widget class="QToolButton" name="buttonModYouwin">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she says &amp;quot;you win&amp;quot;&lt;/p&gt;&lt;p&gt;Key: p&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>youwin</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="5">
+              <widget class="QToolButton" name="buttonModLow">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she performs with low cards in her hands&lt;/p&gt;&lt;p&gt;Key: e&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>low</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="7">
+              <widget class="QToolButton" name="buttonNo">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she rejects a drink&lt;/p&gt;&lt;p&gt;Key: n&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>no</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="9">
+              <widget class="QToolButton" name="buttonOff1">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she takes her clothes off&lt;/p&gt;&lt;p&gt;Key: 1 f&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>2-&gt;1</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="10">
+              <widget class="QToolButton" name="buttonOn2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she takes her clothes on&lt;/p&gt;&lt;p&gt;Key: 2 o&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>1-&gt;2</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QToolButton" name="buttonIntro">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;this is the intro clip&lt;/p&gt;&lt;p&gt;Key: i&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>intro</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QToolButton" name="buttonTake">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she takes her cards&lt;/p&gt;&lt;p&gt;Key: t&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>take</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="2">
+              <widget class="QToolButton" name="buttonDrop">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she drops her cards (fold, lose)&lt;/p&gt;&lt;p&gt;Key: d&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>drop</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="3">
+              <widget class="QToolButton" name="buttonWin">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she wins&lt;/p&gt;&lt;p&gt;Key: u&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>win</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="4">
+              <widget class="QToolButton" name="buttonLose">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she lost&lt;/p&gt;&lt;p&gt;Key: l&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>lose</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="5">
+              <widget class="QToolButton" name="buttonModCards">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she plays with cards in her hands&lt;/p&gt;&lt;p&gt;Key: a&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>cards</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="6">
+              <widget class="QToolButton" name="buttonShow">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she performs a show&lt;/p&gt;&lt;p&gt;Key: s&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>show</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="7">
+              <widget class="QToolButton" name="buttonModDrink">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she drinks&lt;/p&gt;&lt;p&gt;Key: k&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>drink</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="8">
+              <widget class="QToolButton" name="buttonX">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;a garbage clip&lt;/p&gt;&lt;p&gt;Key: -&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>-</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="9">
+              <widget class="QToolButton" name="buttonOff0">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she takes her clothes off&lt;/p&gt;&lt;p&gt;Key: 0 f&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>1-&gt;0</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="10">
+              <widget class="QToolButton" name="buttonOn1">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;she takes her clothes on&lt;/p&gt;&lt;p&gt;Key: 1 o&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>0-&gt;1</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="11">
+              <widget class="QToolButton" name="buttonDead">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;the final clip, she lost&lt;/p&gt;&lt;p&gt;Key: 9&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:#202080</string>
+               </property>
+               <property name="text">
+                <string>broke</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0" rowspan="2" colspan="12">
+              <widget class="Line" name="line">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="3" rowspan="2" colspan="3" alignment="Qt::AlignVCenter">
+              <widget class="QComboBox" name="editFind">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::StrongFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Find...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="editable">
+                <bool>true</bool>
+               </property>
+               <item>
+                <property name="text">
+                 <string/>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>take *[0-4].*$</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>win *[0-4].*$</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>drop *[0-4].*$</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>drop *[0-4] *[t].*$</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>drop *[0-4] *(zoom|quiet|mute)? *(zoom|quiet|mute)? *$</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>lose *[0-4].*$</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>show *[0-4] *[hlc].*$</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>show *[0-4] *[d].*$</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>show *[0-4] *(zoom|quiet|mute)? *(zoom|quiet|mute)? *$</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>((intro)|(on)|(off)|(broke)).*$</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>[ ]4[ ]</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>[ ]3[ ]</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>[ ]2[ ]</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>[ ]1[ ]</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>[ ]0[ ]</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item row="6" column="6" alignment="Qt::AlignVCenter">
+              <widget class="QToolButton" name="buttonFind">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Find in texteditor&lt;/p&gt;&lt;p&gt;Key: ctrl f&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>find</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="7" alignment="Qt::AlignVCenter">
+              <widget class="QCheckBox" name="checkFind">
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Jump to next found line after replace&lt;/p&gt;&lt;p&gt;Key: ctrl j&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>jump</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="10" colspan="2" alignment="Qt::AlignVCenter">
+              <widget class="QToolButton" name="buttonScanAudio">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;scan audio and modify clip description&lt;/p&gt;&lt;p&gt;Key: ctrl n&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="text">
+                <string>Scan audio</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0" colspan="8">
+              <widget class="QWidget" name="widget_11" native="true">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_10">
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QRadioButton" name="buttonPieces4">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::NoFocus</enum>
+                  </property>
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;4 pieces of cloth&lt;/p&gt;&lt;p&gt;Key: 4&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="text">
+                   <string>4</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="buttonPieces3">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::NoFocus</enum>
+                  </property>
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;3 pieces of cloth&lt;/p&gt;&lt;p&gt;Key: 3&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="text">
+                   <string>3</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="buttonPieces2">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::NoFocus</enum>
+                  </property>
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;2 pieces of cloth&lt;/p&gt;&lt;p&gt;Key: 2&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="text">
+                   <string>2</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="buttonPieces1">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::NoFocus</enum>
+                  </property>
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;1 piece of cloth&lt;/p&gt;&lt;p&gt;Key: 1&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="text">
+                   <string>1</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="buttonPieces0">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::NoFocus</enum>
+                  </property>
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;0 pieces of cloth&lt;/p&gt;&lt;p&gt;Key: 0&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="text">
+                   <string>0</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="checkZoom">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::NoFocus</enum>
+                  </property>
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Action button adds zoom modifier&lt;/p&gt;&lt;p&gt;Key: 5&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="text">
+                   <string>zoom</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_12" native="true">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>1</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_11">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="6" column="9" alignment="Qt::AlignVCenter">
+              <widget class="QToolButton" name="buttonCheck">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check for missing clips&lt;/p&gt;&lt;p&gt;Key: ctrl k&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>Check</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="8" alignment="Qt::AlignVCenter">
+              <widget class="QToolButton" name="buttonGenerateExtra">
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Generate candidates for bare-handed show clips&lt;/p&gt;&lt;p&gt;Key: ctrl g&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>&quot;show&quot;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="0">
+              <widget class="QCheckBox" name="addTimestamp">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Action button adds new timestamp after line&lt;/p&gt;&lt;p&gt;Key: ctrl a&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>Add</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="1">
+              <widget class="QToolButton" name="buttonTimestamp">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Replace timestamp&lt;/p&gt;&lt;p&gt;Key: crtl t&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>Time</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QTabWidget" name="tabWidget">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>1</horstretch>
+           <verstretch>1</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>1</width>
+           <height>1</height>
+          </size>
+         </property>
+         <property name="baseSize">
+          <size>
+           <width>1</width>
+           <height>1</height>
+          </size>
+         </property>
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="tabEdit">
+          <property name="toolTip">
+           <string/>
+          </property>
+          <attribute name="title">
+           <string>Edit</string>
+          </attribute>
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="PlainTexteditEatWheel" name="editTs">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>1</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>200</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Ubuntu Mono</family>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="focusPolicy">
+              <enum>Qt::ClickFocus</enum>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color:#f2f2f2</string>
+             </property>
+             <property name="tabChangesFocus">
+              <bool>true</bool>
+             </property>
+             <property name="plainText">
+              <string>00:00:00:000</string>
+             </property>
+             <property name="centerOnScroll">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="tabLog">
+          <attribute name="title">
+           <string>Log</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QTextBrowser" name="logBrowser">
+             <property name="lineWrapMode">
+              <enum>QTextEdit::NoWrap</enum>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="tabHelp">
+          <attribute name="title">
+           <string>Help</string>
+          </attribute>
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QTextBrowser" name="textBrowser">
+             <property name="source">
+              <url>
+               <string>qrc:/edit/help.html</string>
+              </url>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="tools" native="true">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="SliderNoWheel" name="sliderPosition">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="maximum">
+         <number>1000</number>
+        </property>
+        <property name="pageStep">
+         <number>10</number>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+        <property name="sliderPosition">
+         <number>0</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="widget_4" native="true">
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item alignment="Qt::AlignLeft">
+          <widget class="QWidget" name="toolButtons" native="true">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="labelPosition">
+              <property name="text">
+               <string>00:00:00:000 00</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="buttonPosStart">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;First frame&lt;/p&gt;&lt;p&gt;Key: Home&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>|&lt;</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="buttonPosBack">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;10 frames backward&lt;/p&gt;&lt;p&gt;Key: z or y or w&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>&lt;&lt;</string>
+              </property>
+              <property name="autoRepeat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="buttonPosBack1">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;1 Frame backwards&lt;/p&gt;&lt;p&gt;Key: x&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>&lt;</string>
+              </property>
+              <property name="autoRepeat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="buttonPlay">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Play / Stop&lt;/p&gt;&lt;p&gt;Key: Spacebar or F10&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>Play</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="buttonPosForward1">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;1 frame foreward&lt;/p&gt;&lt;p&gt;Key: c&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>&gt;</string>
+              </property>
+              <property name="autoRepeat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="buttonPosForward">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;10 frames foreward&lt;/p&gt;&lt;p&gt;Key: v&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>&gt;&gt;</string>
+              </property>
+              <property name="autoRepeat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="buttonPosEnd">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Last frame&lt;/p&gt;&lt;p&gt;Key: End&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>&gt;|</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="buttonSnap">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Snap to clip marker&lt;/p&gt;&lt;p&gt;Key: b&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>Snap   </string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item alignment="Qt::AlignLeft">
+          <widget class="QCheckBox" name="checkAutosnap">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::TabFocus</enum>
+           </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Snap at clip marker after stopping&lt;/p&gt;&lt;p&gt;Key: ctrl b&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="text">
+            <string>Autosnap</string>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item alignment="Qt::AlignRight">
+          <widget class="QWidget" name="widget_3" native="true">
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QToolButton" name="buttonPrevMark">
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Go to previous clip&lt;/p&gt;&lt;p&gt;Key: F7&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>Prev</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkGotoMark">
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Position video at selected line when text cursor moves&lt;/p&gt;&lt;p&gt;Key: ctrl F9&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="buttonGotoMark">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Position video at selected line&lt;/p&gt;&lt;p&gt;Key: F9&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>Goto</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="buttonNextMark">
+              <property name="focusPolicy">
+               <enum>Qt::TabFocus</enum>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Go to next clip&lt;/p&gt;&lt;p&gt;Key: F8&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>Next</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ClipGraphicsView</class>
+   <extends>QWidget</extends>
+   <header>clipgraphicsview.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QVideoWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">qvideowidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SliderNoWheel</class>
+   <extends>QSlider</extends>
+   <header>slidernowheel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>PlainTexteditEatWheel</class>
+   <extends>QPlainTextEdit</extends>
+   <header>plaintextediteatwheel.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>buttonOpenFile</tabstop>
+  <tabstop>buttonSaveTsFile</tabstop>
+  <tabstop>buttonTrimPreview</tabstop>
+  <tabstop>buttonSavePreview</tabstop>
+  <tabstop>textPreviewURL</tabstop>
+  <tabstop>buttonDownloadPreview</tabstop>
+  <tabstop>buttonTrimImage</tabstop>
+  <tabstop>buttonPrepareImage</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>editFind</tabstop>
+  <tabstop>buttonFind</tabstop>
+  <tabstop>buttonPosStart</tabstop>
+  <tabstop>buttonPosBack</tabstop>
+  <tabstop>buttonPosBack1</tabstop>
+  <tabstop>buttonPlay</tabstop>
+  <tabstop>buttonPosForward1</tabstop>
+  <tabstop>buttonPosForward</tabstop>
+  <tabstop>buttonPosEnd</tabstop>
+  <tabstop>buttonSnap</tabstop>
+  <tabstop>checkAutosnap</tabstop>
+  <tabstop>buttonPrevMark</tabstop>
+  <tabstop>buttonGotoMark</tabstop>
+  <tabstop>buttonNextMark</tabstop>
+  <tabstop>buttonModLow</tabstop>
+  <tabstop>logBrowser</tabstop>
+  <tabstop>textBrowser</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../pokerth/gui/qt/resources/pokerth.qrc"/>
+ </resources>
+ <connections/>
+</ui>
