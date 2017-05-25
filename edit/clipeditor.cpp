@@ -385,7 +385,7 @@ void ClipEditor::slotTextChanged() {
 }
 
 void ClipEditor::slotTextCursorChanged() {
-    qDebug() << "cursor changed";
+    //qDebug() << "cursor changed";
     if (active) {
         QString line = ui->editTs->textCursor().block().text();
         if (ui->checkGotoMark->isChecked()) {
@@ -398,7 +398,7 @@ void ClipEditor::slotTextCursorChanged() {
 
         if (Util::regTimecode.indexIn(line) == 0) {
             qint64 time = Util::timecodeToTimestamp(Util::regTimecode);
-            qDebug() << "mediaPlayerStart" << Util::timestampToTimecode(time);
+            //qDebug() << "mediaPlayerStart" << Util::timestampToTimecode(time);
             mediaPlayerStart->setPosition(time);
         }
     }
@@ -1094,7 +1094,7 @@ void ClipEditor::slotPositionChanged(qint64 t) {
 
     if (!calledByVideoPlayer) {
         qint64 end = t >= (1000/25) ? t - (1000/25) : 0;
-        qDebug() << "mediaPlayerEnd" << Util::timestampToTimecode(end);
+        //qDebug() << "mediaPlayerEnd" << Util::timestampToTimecode(end);
         mediaPlayerEnd->setPosition(end);
     }
 
@@ -1302,7 +1302,7 @@ void ClipEditor::slotAudioBufferAvailable() {
                         audioActiveTextBlock[i].audioLoudSamples += data[i];
                     }
                 } else {
-                    qDebug() << audioActiveTextBlock[i].line.text() << Util::timestampToTimecode(audioActiveTextBlock[i].start/10) << audioActiveTextBlock[i].audioSamples << (audioActiveTextBlock[i].audioLoudSamples/audioActiveTextBlock[i].audioSamples);
+                    //qDebug() << audioActiveTextBlock[i].line.text() << Util::timestampToTimecode(audioActiveTextBlock[i].start/10) << audioActiveTextBlock[i].audioSamples << (audioActiveTextBlock[i].audioLoudSamples/audioActiveTextBlock[i].audioSamples);
                     qint64 time;
                     QString action;
                     int pieces;
