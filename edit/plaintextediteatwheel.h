@@ -39,12 +39,12 @@ protected:
         setFocus();
     }
     virtual void focusInEvent(QFocusEvent *event) {
-        qDebug() << "focus in";
+        //qDebug() << "focus in";
         QPlainTextEdit::focusInEvent(event);
         setStyleSheet("background-color:#ffffff");
     }
     virtual void focusOutEvent(QFocusEvent *event) {
-        qDebug() << "focus out";
+        //qDebug() << "focus out";
         QPlainTextEdit::focusOutEvent(event);
         setStyleSheet("background-color:#f2f2f2");
     }

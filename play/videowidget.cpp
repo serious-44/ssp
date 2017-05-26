@@ -704,10 +704,10 @@ void VideoWidget::startVideo(int pieces, QString action1, QString action2, QStri
 
     mutex.unlock();
 
-    qDebug() << "Play:" << seat << action1 << action2 << action3 << pieces << fill << "activeloud:" << activeLoudClips << playingLoud << "zoom:" << (tryLoud[0] == ClipType::LOUD_ZOOM) << playingZoom << "variety:" << (clips1.length() + clips2.length() + clips3.length());
+    //qDebug() << "Play:" << seat << action1 << action2 << action3 << pieces << fill << "activeloud:" << activeLoudClips << playingLoud << "zoom:" << (tryLoud[0] == ClipType::LOUD_ZOOM) << playingZoom << "variety:" << (clips1.length() + clips2.length() + clips3.length());
 
     if (clips1.length() + clips2.length() + clips3.length() == 0) {
-        qDebug() << "    :" << seat << " no clip found";
+        //qDebug() << "    :" << seat << " no clip found";
         if (!dispensable) {
             emit error(QString("No clip for %1 %2/%3/%4 in %5").arg(pieces).arg(action1).arg(action2).arg(action3).arg(tsFileName));
         }
@@ -734,15 +734,12 @@ void VideoWidget::startVideo(int pieces, QString action1, QString action2, QStri
         p = rand() % clips.length();
         ok = !lruClips.contains(clips[p].start);
 
-        if (ok && (clips[p].end - clips[p].start) > 2000) {
-            break;
-        }
-        if (ok && i > 10) {
+        if (ok && i > 20 - (clips[p].end - clips[p].start) / 100 ) {
             break;
         }
     }
     if (!ok && dispensable) {
-        qDebug() << "    :" << seat << " no new clip found for dispansable";
+        //qDebug() << "    :" << seat << " no new clip found for dispansable";
         if (playingLoud) {
             mutex.lock();
             activeLoudClips--;
@@ -772,7 +769,7 @@ void VideoWidget::startVideo(int pieces, QString action1, QString action2, QStri
     int min = (clips[p].start % (60 * 60 * 1000)) / (60 * 1000);
     int sec = (clips[p].start % (60 * 1000)) / 1000;
     int ms = (clips[p].start % 1000);
-    qDebug() << "    :" << seat << QString::asprintf("%02d:%02d:%02d:%03d", h, min, sec, ms) << QString("%1[%2]").arg(action).arg(p) << pieces << fill << "loud:" << playingLoud;
+    //qDebug() << "    :" << seat << QString::asprintf("%02d:%02d:%02d:%03d", h, min, sec, ms) << QString("%1[%2]").arg(action).arg(p) << pieces << fill << "loud:" << playingLoud;
     QByteArray a = action.toLatin1();
     emit info(QString::asprintf("Play %d %02d:%02d:%02d:%03d %s/%d %s", seat, h, min, sec, ms, a.data(), pieces, (fill ? " (idle)" : "")));
     int len = clips[p].end - clips[p].start;

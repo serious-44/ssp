@@ -138,6 +138,8 @@ public slots:
     void slotCheck();
     void slotGenerateExtra();
 
+    void slotToggleMute();
+
     void slotPositionChanged(qint64);
     void slotMetaDataChanged(const QString &key, const QVariant &value);
     void slotDurationChanged(qint64 dur);
@@ -161,7 +163,6 @@ protected:
 private:
     void insertTsText(QString action, int pieces, QString modifier);
     void insertTsText(QString action, int pieces, QString modifier, bool zoom);
-    void insertModText(QString mod);
     void videoStop();
 
     Ui::ClipEditor *ui;

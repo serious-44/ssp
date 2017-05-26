@@ -71,6 +71,7 @@ ClipEditor::ClipEditor(QWidget *parent) :
     connect(ui->buttonModHigh, SIGNAL (clicked()), this, SLOT (slotModHigh()));
     connect(ui->buttonModLow, SIGNAL (clicked()), this, SLOT (slotModLow()));
     connect(ui->buttonModDrink, SIGNAL (clicked()), this, SLOT (slotModDrink()));
+    connect(ui->buttonMute, SIGNAL (clicked()), this, SLOT (slotToggleMute()));
 
     connect(ui->sliderPosition, SIGNAL (valueChanged(int)), this, SLOT (slotSliderMoved(int)));
     connect(ui->sliderPosition, SIGNAL (sliderPressed()), this, SLOT (slotSliderPressed()));
@@ -571,7 +572,7 @@ void ClipEditor::keyPressEvent(QKeyEvent *event) {
         } else if (k == Qt::Key_F) {
             slotFind();
             event->accept();
-        } else if (k == Qt::Key_F) {
+        } else if (k == Qt::Key_J) {
             ui->checkFind->setChecked(!ui->checkFind->isChecked());
             event->accept();
         } else if (k == Qt::Key_G) {
@@ -579,6 +580,9 @@ void ClipEditor::keyPressEvent(QKeyEvent *event) {
             event->accept();
         } else if (k == Qt::Key_K) {
             slotCheck();
+            event->accept();
+        } else if (k == Qt::Key_M) {
+            slotToggleMute();
             event->accept();
         } else if (k == Qt::Key_F9) {
             ui->checkGotoMark->setChecked(!ui->checkGotoMark->isChecked());
@@ -763,7 +767,7 @@ void ClipEditor::insertTsText(QString action, int pieces, QString modifier, bool
 
         //QString newText = QString(" %1 %2%3").arg(action).arg(pieces).arg(oldModifier);
 
-        QString newText = QString(" %1 %2 %3 %4").arg(action, -5).arg(pieces).arg(modifier, -6).arg(zoom ? " zoom" : "     ");
+        QString newText = QString(" %1 %2 %3 %4").arg(action, -5).arg(pieces).arg(modifier, -7).arg(zoom ? " zoom" : "     ");
 
         if (Util::regTimecode.indexIn(oldText) == 0) {
             replace = ui->editTs->textCursor();
@@ -821,14 +825,32 @@ void ClipEditor::insertTsText(QString action, int pieces, QString modifier, bool
     }
 }
 
-void ClipEditor::insertModText(QString mod) {
+void ClipEditor::slotToggleMute() {
     if (!active) return;
 
-    QTextCursor line = ui->editTs->textCursor();
-    line.movePosition(QTextCursor::EndOfLine, QTextCursor::MoveAnchor);
-    line.insertText(" " + mod);
-    line.movePosition(QTextCursor::EndOfLine, QTextCursor::MoveAnchor);
-    ui->editTs->setTextCursor(line);
+    QTextCursor c = ui->editTs->textCursor();
+    QTextBlock line = c.block();
+
+    qint64 time;
+    QString action;
+    int pieces;
+    QString modifier;
+    bool zoom;
+    ClipSound quiet;
+    if (Util::scanTimestampLine(line.text(), &time, &action, &pieces, &modifier, &zoom, &quiet) == TimestampLineAction) {
+        if (quiet == ClipSoundMute) {
+            quiet = ClipSoundLoud;
+        } else {
+            quiet = ClipSoundMute;
+        }
+        QString nl = Util::formatTsLine(time, action, pieces, modifier, zoom, quiet);
+        c.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
+        c.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+        c.insertText(nl);
+        c.movePosition(QTextCursor::EndOfLine, QTextCursor::MoveAnchor);
+        ui->editTs->setTextCursor(c);
+    }
+
     ui->editTs->ensureCursorVisible();
 
     if (ui->checkFind->isChecked()) {
@@ -1335,7 +1357,7 @@ void ClipEditor::slotAudioBufferAvailable() {
                     QString nl = Util::formatTsLine(time, action, pieces, modifier, zoom, quiet);
                     QTextCursor c(audioActiveTextBlock[i].line);
                     c.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
-                    c.insertText(Util::formatTsLine(nl));
+                    c.insertText(nl);
 
                     audioActiveTextBlock.remove(i);
                 }

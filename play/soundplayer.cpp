@@ -31,7 +31,7 @@ SoundPlayer::~SoundPlayer() {
 }
 
 void SoundPlayer::slotPlayerAction(int seat, JobAction action, int pieces, bool needsSignalDone) {
-    qDebug() << "soundPlayer" << seat << Util::nameOfAction(action);
+    //qDebug() << "soundPlayer" << seat << Util::nameOfAction(action);
     stats[action]++;
 
     if (action == JobActionNewGame) {
@@ -111,28 +111,28 @@ void SoundPlayer::checkQueue() {
         }
         if (mediaPlayer1->state() == QMediaPlayer::StoppedState) {
             QString file = soundQueue.dequeue();
-            qDebug() << "play1" << file << volume;
+            //qDebug() << "play1" << file << volume;
             mediaPlayer1->setVolume(volume);
             mediaPlayer1->setMedia(QUrl(file));
             mediaPlayer1->play();
             QTimer::singleShot(rand() % 200, this, SLOT(checkQueue()));
         } else if (mediaPlayer2->state() == QMediaPlayer::StoppedState) {
             QString file = soundQueue.dequeue();
-            qDebug() << "play2" << file << volume;
+            //qDebug() << "play2" << file << volume;
             mediaPlayer2->setVolume(volume);
             mediaPlayer2->setMedia(QUrl(file));
             mediaPlayer2->play();
             QTimer::singleShot(rand() % 200, this, SLOT(checkQueue()));
         } else if (mediaPlayer3->state() == QMediaPlayer::StoppedState) {
             QString file = soundQueue.dequeue();
-            qDebug() << "play3" << file << volume;
+            //qDebug() << "play3" << file << volume;
             mediaPlayer3->setVolume(volume);
             mediaPlayer3->setMedia(QUrl(file));
             mediaPlayer3->play();
             QTimer::singleShot(rand() % 200, this, SLOT(checkQueue()));
         } else if (mediaPlayer4->state() == QMediaPlayer::StoppedState) {
             QString file = soundQueue.dequeue();
-            qDebug() << "play4" << file << volume;
+            //qDebug() << "play4" << file << volume;
             mediaPlayer4->setVolume(volume);
             mediaPlayer4->setMedia(QUrl(file));
             mediaPlayer4->play();

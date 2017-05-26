@@ -9,7 +9,7 @@ Version 0.0.0  Use at your own risk.
 
 This distribution does not include any videos :-(
 
-Fortunately you can use the girls, you bought from Torquemada.
+But you can use the girls, you bought from Torquemada.
 This company made 4 keys public, so you can download 4 girls for free.
 
 If don't know how to convert the proprietary files, ask your favorite search engine for vsp2movie3.
@@ -43,14 +43,14 @@ Unless you find a binary distribution made by somebody else, you have to compile
 
 For each opponent put the 3 files into the same directory.
 
-tory.avi
-tory.jpg
-tory.ts
+- tory.avi
+- tory.jpg
+- tory.ts
 
 Start the program, click the "number of opponents" radio-button.
 Select your opponents.
-  Choose a *.tsc compilation or some *.ts timestamp files.
-  Or play serious Texas Hold'en without the distracting girls.
+-  Choose a *.tsc compilation or some *.ts timestamp files.
+-  Or play serious Texas Hold'en without the distracting girls.
 Click on "start".
 
 Basically this is a modification of the PokerTH game. Please consult the user guide from https://www.pokerth.net/ .
@@ -66,7 +66,7 @@ The new videos are easier. The gestures are exaggerated. And you will find enoug
 
 ---- Compiling the source code
 
-You need the qtCreator IDE.
+You need the free QtCreator IDE.
 
 This page describes, how to install IDE and compiler on Windows.
 https://www.ics.com/blog/getting-started-qt-and-qt-creator-windows
@@ -78,8 +78,9 @@ https://stackoverflow.com/questions/27708127/setup-git-in-qt-creator
 
 On Ubuntu Linux, things get more difficult.
 
-The qtdesigner ubuntu package is too old for a QT5 application. Trolltech changed ther download procedure, so the tips on askubunto don't work any more.
+The qtdesigner ubuntu package is too old for a QT5 application. Trolltech changed ther download procedure, so the tips on askubuntu don't work any more.
 Use http://download.qt.io/official_releases/qtcreator/4.3/4.3.0/qt-creator-opensource-linux-x86_64-4.3.0.run
+
 It doesn't install the development libraries -- use the package manager of your distribution.
 (The package names are messed up. https://askubuntu.com/questions/508503/whats-the-development-package-for-qt5-in-14-04)
 
@@ -94,9 +95,9 @@ This is Github. Just fork and let me know, whether I am allowed to pull your imp
 
 ---- Discussions
 
-Probably, you will find all people interested in this program where you found vsp2movie3. So I suggest to discuss this program also on this place.
+Probably, you will find all people interested in this program where you found vsp2movie3. So I suggest to discuss this program also at this place.
 
-You want to share your timestamp files? Up to now, I have no idea how to distribute the collection.
+You want to share your timestamp files? Anybody volunteer to organize and disseminate the collection?
 
 Please report bugs on github issue tracker.
 https://github.com/serious-44/ssp/issues

@@ -183,7 +183,9 @@ FORMS    += \
 
 DISTFILES += \
     TODO \
-    edit/help.html
+    edit/help.html \
+    LICENSE.md \
+    README.md
 
 RESOURCES += \
     pokerth/gui/qt/resources/coins0.qrc \
