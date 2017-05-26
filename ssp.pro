@@ -8,7 +8,7 @@ QT       += core gui multimedia multimediawidgets opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = stpoker
+TARGET = ssp
 TEMPLATE = app
 
 QMAKE_CXXFLAGS += -Wno-unused-parameter -std=c++11
