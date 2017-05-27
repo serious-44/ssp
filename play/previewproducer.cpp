@@ -157,7 +157,7 @@ void PreviewProducer::process(QFileInfo tsFile) {
 }
 
 void PreviewProducer::startImage() {
-    qDebug() << "process start next" << todo.length();
+    //qDebug() << "process start next" << todo.length();
     if (todo.isEmpty()) {
         ui->textLog->append("Done");
         ui->buttonRun->setEnabled(true);
@@ -173,7 +173,7 @@ void PreviewProducer::startImage() {
 
 void PreviewProducer::slotProcessNetImage() {
     ui->textLog->append(QString("Download %1").arg(todo[0].url));
-    qDebug() << "processNetImage" << todo[0].url;
+    //qDebug() << "processNetImage" << todo[0].url;
     request.setUrl(todo[0].url);
     networkReply = networkAccessManager.get(request);
     connect(networkReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(slotNetworkError(QNetworkReply::NetworkError)));
@@ -182,7 +182,7 @@ void PreviewProducer::slotProcessNetImage() {
 }
 
 void PreviewProducer::slotNetworkError(QNetworkReply::NetworkError err) {
-    qDebug() << "processNetImage ERROR" << todo[0].url;
+    //qDebug() << "processNetImage ERROR" << todo[0].url;
     if (!todo[0].error) {
         todo[0].error = true;
         ui->textLog->append(QString ("<span style=\"color:#c02020;\">Error %1 fetching %2</span>").arg(networkReply->errorString()).arg(todo[0].url));
@@ -191,11 +191,11 @@ void PreviewProducer::slotNetworkError(QNetworkReply::NetworkError err) {
 }
 
 void PreviewProducer::slotNetworkUpdateProgress(qint64 read, qint64 total) {
-    qDebug() << "processNetImage ..." << todo[0].url;
+    //qDebug() << "processNetImage ..." << todo[0].url;
 }
 
 void PreviewProducer::slotNetworkFinished() {
-    qDebug() << "processNetImage Download" << todo[0].url;
+    //qDebug() << "processNetImage Download" << todo[0].url;
     QImage p;
     QByteArray b = networkReply->read(networkReply->size());
     p.loadFromData(b);
@@ -206,7 +206,7 @@ void PreviewProducer::slotNetworkFinished() {
 
 
 void PreviewProducer::slotProcessVideo() {
-    qDebug() << "processVideo";
+    //qDebug() << "processVideo";
     if (!mediaPlayer) {
         mediaPlayer = new QMediaPlayer();
         connect(mediaPlayer, SIGNAL(error(QMediaPlayer::Error)), this, SLOT(slotMediaPlayerError(QMediaPlayer::Error)));
@@ -231,7 +231,7 @@ void PreviewProducer::slotProcessVideo() {
 }
 
 void PreviewProducer::slotMediaPlayerError(QMediaPlayer::Error err) {
-    qDebug() << "mediaplayer ERROR" << err << todo[0].url;
+    //qDebug() << "mediaplayer ERROR" << err << todo[0].url;
     if (!todo[0].error) {
         todo[0].error = true;
         ui->textLog->append(QString ("<span style=\"color:#c02020;\">Error in Mediaplayer: %1</span>").arg(mediaPlayer->errorString()));
@@ -245,7 +245,7 @@ void PreviewProducer::slotProcessVideoFrame(const QVideoFrame &buffer) {
         return;
     }
     if (buffer.startTime() >= todo[0].timestamp) {
-        qDebug() << "processVideo Found";
+        //qDebug() << "processVideo Found";
         mediaPlayer->stop();
 
         QImage img;
@@ -299,7 +299,7 @@ void PreviewProducer::slotProcessVideoFrame(const QVideoFrame &buffer) {
 }
 
 void PreviewProducer::saveImage(QImage image) {
-    qDebug() << "save image" << todo[0].ts;
+    //qDebug() << "save image" << todo[0].ts;
     if (image.isNull()) {
         ui->textLog->append(QString ("<span style=\"color:#c02020;\">Unreconized image %1</span>").arg(todo[0].url));
     } else {
@@ -340,7 +340,7 @@ void PreviewProducer::saveImage(QImage image) {
     QTimer::singleShot(200, this, SLOT(slotAfterProcessImage()));
 }
 void PreviewProducer::slotAfterProcessImage() {
-    qDebug() << "after save image";
+    //qDebug() << "after save image";
     todo.remove(0);
     startImage();
 }
