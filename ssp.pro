@@ -95,7 +95,8 @@ SOURCES  += main.cpp\
     play/previewproducer.cpp \
     play/previewfiledialog.cpp \
     util.cpp \
-    play/soundplayer.cpp
+    play/soundplayer.cpp \
+    play/videoframegrabber.cpp
 
 HEADERS  += \
             pokerth/xxx_tmp.h\
@@ -169,7 +170,8 @@ HEADERS  += \
     util.h \
     edit/slidernowheel.h \
     edit/plaintextediteatwheel.h \
-    play/soundplayer.h
+    play/soundplayer.h \
+    play/videoframegrabber.h
 
 FORMS    += \
     pokerth/gui/qt/gametableimpl.ui \

@@ -15,7 +15,7 @@ PreviewProducer::PreviewProducer(QWidget *parent) :
     ui(new Ui::PreviewProducer),
     networkReply(0),
     mediaPlayer(0),
-    videoProbe(0)
+    grabber(0)
 {
     ui->setupUi(this);
 
@@ -44,7 +44,7 @@ PreviewProducer::~PreviewProducer() {
     if (mediaPlayer) {
         mediaPlayer->stop();
         mediaPlayer->deleteLater();
-        videoProbe->deleteLater();
+        grabber->deleteLater();
     }
 }
 
@@ -207,9 +207,9 @@ void PreviewProducer::slotProcessVideo() {
     if (!mediaPlayer) {
         mediaPlayer = new QMediaPlayer();
         connect(mediaPlayer, SIGNAL(error(QMediaPlayer::Error)), this, SLOT(slotMediaPlayerError(QMediaPlayer::Error)));
-        videoProbe = new QVideoProbe();
-        connect(videoProbe, SIGNAL(videoFrameProbed(const QVideoFrame &)), this, SLOT(slotProcessVideoFrame(const QVideoFrame &)));
-        videoProbe->setSource(mediaPlayer);
+        grabber = new VideoFrameGrabber();
+        connect(grabber, SIGNAL(frameAvailable(const QVideoFrame &)), this, SLOT(slotProcessVideoFrame(const QVideoFrame &)));
+        mediaPlayer->setVideoOutput(grabber);
     } else {
         mediaPlayer->stop();
     }
@@ -233,29 +233,26 @@ void PreviewProducer::slotMediaPlayerError(QMediaPlayer::Error err) {
     QTimer::singleShot(200, this, SLOT(slotAfterProcessImage()));
 }
 
-void PreviewProducer::slotProcessVideoFrame(const QVideoFrame &buffer) {
+void PreviewProducer::slotProcessVideoFrame(const QVideoFrame &frame) {
     if (todo.isEmpty()) {
         return;
     }
-    if (buffer.startTime() >= todo[0].timestamp) {
+    if (frame.startTime() >= todo[0].timestamp) {
         //qDebug() << "processVideo Found";
-        mediaPlayer->stop();
+        QTimer::singleShot(0, mediaPlayer, SLOT(stop()));
+
+        QVideoFrame cloneFrame(frame);
+        cloneFrame.map(QAbstractVideoBuffer::ReadOnly);
 
         QImage img;
-        QVideoFrame frame(buffer);
-        frame.map(QAbstractVideoBuffer::ReadOnly);
-        //qDebug() << frame.pixelFormat();
-        QImage::Format imageFormat = QVideoFrame::imageFormatFromPixelFormat(frame.pixelFormat());
-        // BUT the frame.pixelFormat() is QVideoFrame::Format_Jpeg, and this is
-        // mapped to QImage::Format_Invalid by
-        // QVideoFrame::imageFormatFromPixelFormat
+        QImage::Format imageFormat = QVideoFrame::imageFormatFromPixelFormat(cloneFrame.pixelFormat());
         if (imageFormat != QImage::Format_Invalid) {
-            img = QImage(frame.bits(), frame.width(), frame.height(), imageFormat);
-        } else if (frame.pixelFormat() == QVideoFrame::Format_YUV420P) {
-            int width = frame.width();
-            int height = frame.height();
+            img = QImage(cloneFrame.bits(), cloneFrame.width(), cloneFrame.height(), imageFormat);
+        } else { // Format_YUV420
+            int width = cloneFrame.width();
+            int height = cloneFrame.height();
             img = QImage(width, height, QImage::Format_RGB32);
-            uchar *b = frame.bits();
+            uchar *b = cloneFrame.bits();
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     int y_ = b[y * width + x];
@@ -279,12 +276,8 @@ void PreviewProducer::slotProcessVideoFrame(const QVideoFrame &buffer) {
                     img.setPixel(x, y, qRgb(int(r), int(g), int(b)));
                 }
             }
-        } else {
-            // e.g. JPEG
-            int nbytes = frame.mappedBytes();
-            img = QImage::fromData(frame.bits(), nbytes);
         }
-        frame.unmap();
+        cloneFrame.unmap();
 
         todo[0].timestamp = LLONG_MAX;
         saveImage(img);

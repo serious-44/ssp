@@ -11,6 +11,8 @@
 #include <QVideoProbe>
 #include <QVideoFrame>
 
+#include "videoframegrabber.h"
+
 namespace Ui {
 class PreviewProducer;
 }
@@ -61,7 +63,7 @@ private:
     QNetworkReply *networkReply;
 
     QMediaPlayer *mediaPlayer;
-    QVideoProbe *videoProbe;
+    VideoFrameGrabber *grabber;
 
 };
 
