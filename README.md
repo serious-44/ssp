@@ -34,9 +34,9 @@ After selecting the girls, you will see a message "no preview image".
 
 ---- Installing the program
 
-This distribution doesn't include binaries.
+There is a Windwos binary. Up to now, there is no installer. Just download the zip. Unpack it and start ssp.exe from your file explorer.
 
-Unless you find a binary distribution made by somebody else, you have to compile it yourself.
+To run this program on Linux, you have to compile it yourself. Trolltech claims, you can also compile it in a Mac.
 
 
 ---- Playing Poker

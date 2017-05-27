@@ -10,7 +10,7 @@ Each description of a clip consists of 2 lines.
 <li>And optionally some modifiers.</li>
 <li>The timestamp of the next clip is also the end marker for the previous one.</li>
 </ul>
-A typicat file looks like:
+A typical file looks like:
 <pre><code>00:00:00:080 take 4 good
 00:00:03:840 take 4 bad
 00:00:07:360 take 4 good
@@ -31,7 +31,9 @@ And every action can have the following:
 </p>
 <p>
 Comment lines begin with a #<br>
-There are 3 comments to describe the preview image. #preview-url, #preview-frame and #preview-crop. Other comments are ignored.
+There are 3 comments to describe the preview image.<br>
+#preview-url, #preview-frame and #preview-crop.<br>
+Other comments are ignored.
 </p>
 <p>
 The Timestamp is hours:minutes:seconds:milliseconds<br>
@@ -44,13 +46,13 @@ You will see some black frames between the clips. Mark them as 1-frame garbage c
 <p>
 If you open a new *.avi video file, you will see a single timestamp in the text editor.
 <ul>
-<li>Yellow background -- The video shows this timestamp.</li>
-<li>Underline -- New text will be added to this line.</li>
+<li>Yellow background -- The video pauses at this timestamp.</li>
+<li>Underline (actually striked out) -- New text will be added to this line.</li>
 <li>Red color -- This is an illegal line.</li>
 </ul>
 </p>
 <p>
-To add a clip description, position the video at the first frame of the next clip.<br>
+To add a clip description, position the video at the first frame of the first clip.<br>
 Check the "Add" and the "Autosnap" checkboxes.
 <ul>
 <li>Make sure you see the first frame of the first clip.</li>
@@ -63,7 +65,7 @@ Check the "Add" and the "Autosnap" checkboxes.
 <li>Repeat until all clips are processed.</li>
 <li>Make sure, there is a marker for a garbage clip after the last clip.</li>
 <li>Click on "Check" and try to avoid red error messages. (Change a "drop" to a "win" clip...)
-<li>Click on "Scan audio" button to add the "quiet" markers.</li>
+<li>Click on the "Scan audio" button to add the "quiet" markers.</li>
 </ul>
 Some videos don't have bare-handed "show" actions. Try to reuse the striptease clips or the second half of the drop/win/lose clips. You can click the "show" button to gererate some candidates.
 </p>
@@ -80,6 +82,9 @@ Open a *.avi video file. If the corresponding *.ts file exists, the clipeditor l
 <h3>Buttons</h3>
 <p>
 The buttons have tooltips. Hope it helps.
+</p>
+<p>
+The bottom left buttons affect the video. The bottom right buttons video and text cursor.
 </p>
 <p>
 The hotkeys of most buttons are plain keys without ctrl or alt. To edit the text, move your mouse over the text area. To use the hotkeys move your mouse out of the text area.<br>

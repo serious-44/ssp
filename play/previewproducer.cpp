@@ -79,6 +79,8 @@ void PreviewProducer::slotRun() {
     ui->textLog->clear();
     ui->textLog->append("Prepare...");
 
+    todo.clear();
+    lastDir = "";
     QDir dir(ui->lineEditDir->text());
     process(dir);
 
@@ -93,10 +95,6 @@ void PreviewProducer::slotRun() {
 
 void PreviewProducer::process(QDir dir) {
     ui->textLog->append(dir.absolutePath());
-
-    todo.clear();
-    lastDir = "";
-
     dir.setSorting(QDir::DirsLast | QDir::Name);
     if (dir.exists()) {
         QStringList entries = dir.entryList();
@@ -173,6 +171,7 @@ void PreviewProducer::startImage() {
 }
 
 void PreviewProducer::slotProcessNetImage() {
+    ui->textLog->append(QString("Download %1").arg(todo[0].url));
     //qDebug() << "processNetImage" << todo[0].url;
     QNetworkRequest request;
     request.setUrl(todo[0].url);
@@ -220,6 +219,7 @@ void PreviewProducer::slotProcessVideo() {
     }
     QString avi(todo[0].ts);
     avi.replace(Util::regPatternTs, ".avi");
+    ui->textLog->append(QString("Open %1").arg(avi));
     mediaPlayer->setMedia(QUrl::fromLocalFile(avi));
     mediaPlayer->play();
     mediaPlayer->pause();
@@ -290,6 +290,7 @@ void PreviewProducer::slotProcessVideoFrame(const QVideoFrame &buffer) {
 }
 
 void PreviewProducer::saveImage(QImage image) {
+    //qDebug() << "save image" << todo[0].ts;
     if (image.isNull()) {
         ui->textLog->append(QString ("<span style=\"color:#c02020;\"> unreconized image %1</span>").arg(todo[0].url));
     } else {
@@ -330,6 +331,7 @@ void PreviewProducer::saveImage(QImage image) {
     QTimer::singleShot(200, this, SLOT(slotAfterProcessImage()));
 }
 void PreviewProducer::slotAfterProcessImage() {
+    //qDebug() << "after save image";
     todo.remove(0);
     startImage();
 }
