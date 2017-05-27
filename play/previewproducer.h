@@ -41,6 +41,7 @@ public slots:
     void slotNetworkUpdateProgress(qint64 read, qint64 total);
     void slotNetworkFinished();
     void slotProcessVideo();
+    void slotMediaPlayerError(QMediaPlayer::Error error);
     void slotProcessVideoFrame(const QVideoFrame &buffer);
     void slotProcessNetImage();
     void slotAfterProcessImage(); //FIXME clear slotProcessVideoFrame queue

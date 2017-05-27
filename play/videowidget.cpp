@@ -69,7 +69,6 @@ VideoWidget::VideoWidget(QWidget *parent) :
 
     mediaPlayer = new QMediaPlayer(this);
     mediaPlayer->setNotifyInterval(1000 / 25);
-    //FIXME signal error(QMediaPlayer::Error error)
     connect(mediaPlayer, SIGNAL(metaDataChanged(const QString&, const QVariant&)), this, SLOT(slotMetaDataChanged(const QString &, const QVariant &)));
     connect(mediaPlayer, SIGNAL(positionChanged(qint64)), this, SLOT(slotPositionChanged(qint64)));
     connect(mediaPlayer, SIGNAL(error(QMediaPlayer::Error)), this, SLOT(slotMediaPlayerError(QMediaPlayer::Error)));

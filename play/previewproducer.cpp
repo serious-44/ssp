@@ -183,14 +183,8 @@ void PreviewProducer::slotProcessNetImage() {
 
 void PreviewProducer::slotNetworkError(QNetworkReply::NetworkError err) {
     //qDebug() << "processNetImage ERROR" << todo[0].url;
-    ui->textLog->append(QString ("<span style=\"color:#c02020;\"> error %1 fetching %2</span>").arg(networkReply->errorString()).arg(todo[0].url));
-    todo.remove(0);
-    if (todo.isEmpty()) {
-        ui->textLog->append("Done");
-        ui->buttonRun->setEnabled(true);
-    } else {
-        startImage();
-    }
+    ui->textLog->append(QString ("<span style=\"color:#c02020;\">Error %1 fetching %2</span>").arg(networkReply->errorString()).arg(todo[0].url));
+    QTimer::singleShot(200, this, SLOT(slotAfterProcessImage()));
 }
 
 void PreviewProducer::slotNetworkUpdateProgress(qint64 read, qint64 total) {
@@ -207,10 +201,12 @@ void PreviewProducer::slotNetworkFinished() {
     networkReply = 0;
 }
 
+
 void PreviewProducer::slotProcessVideo() {
     //qDebug() << "processVideo";
     if (!mediaPlayer) {
         mediaPlayer = new QMediaPlayer();
+        connect(mediaPlayer, SIGNAL(error(QMediaPlayer::Error)), this, SLOT(slotMediaPlayerError(QMediaPlayer::Error)));
         videoProbe = new QVideoProbe();
         connect(videoProbe, SIGNAL(videoFrameProbed(const QVideoFrame &)), this, SLOT(slotProcessVideoFrame(const QVideoFrame &)));
         videoProbe->setSource(mediaPlayer);
@@ -229,6 +225,12 @@ void PreviewProducer::slotProcessVideo() {
     }
     mediaPlayer->setPosition(start);
     mediaPlayer->play();
+}
+
+void PreviewProducer::slotMediaPlayerError(QMediaPlayer::Error err) {
+    ui->textLog->append(QString ("<span style=\"color:#c02020;\">Error in Mediaplayer: %1</span>").arg(mediaPlayer->errorString()));
+    mediaPlayer->stop();
+    QTimer::singleShot(200, this, SLOT(slotAfterProcessImage()));
 }
 
 void PreviewProducer::slotProcessVideoFrame(const QVideoFrame &buffer) {
@@ -292,7 +294,7 @@ void PreviewProducer::slotProcessVideoFrame(const QVideoFrame &buffer) {
 void PreviewProducer::saveImage(QImage image) {
     //qDebug() << "save image" << todo[0].ts;
     if (image.isNull()) {
-        ui->textLog->append(QString ("<span style=\"color:#c02020;\"> unreconized image %1</span>").arg(todo[0].url));
+        ui->textLog->append(QString ("<span style=\"color:#c02020;\">Unreconized image %1</span>").arg(todo[0].url));
     } else {
         QImage crop = image.copy(todo[0].x, todo[0].y, todo[0].w, todo[0].h);
 
@@ -304,18 +306,18 @@ void PreviewProducer::saveImage(QImage image) {
         QFile backFile(backFileName);
         if (backFile.exists()) {
             if (!backFile.remove()) {
-                ui->textLog->append(QString ("<span style=\"color:#c02020;\"> can't remove %1</span>").arg(backFileName));
+                ui->textLog->append(QString ("<span style=\"color:#c02020;\">Can't remove %1</span>").arg(backFileName));
             }
         }
         QFile oldFile(jpg);
         if (oldFile.exists()) {
             if (!oldFile.rename(backFileName)) {
-                ui->textLog->append(QString ("<span style=\"color:#c02020;\"> can't rename %1</span>").arg(backFileName));
+                ui->textLog->append(QString ("<span style=\"color:#c02020;\">Can't rename %1</span>").arg(backFileName));
             }
         }
         QFile outFile(jpg);
         if (!outFile.open(QIODevice::WriteOnly)) {
-            ui->textLog->append(QString ("<span style=\"color:#c02020;\"> can't write %1</span>").arg(jpg));
+            ui->textLog->append(QString ("<span style=\"color:#c02020;\">Can't write %1</span>").arg(jpg));
             return;
         }
         crop.save(&outFile, "JPG");
