@@ -23,6 +23,7 @@ public:
     QString url;
     qint64 timestamp;
     int x, y, w, h;
+    bool error;
 };
 
 class PreviewProducer : public QWidget
@@ -60,6 +61,7 @@ private:
     QString lastDir;
     QVector<PreviewJob> todo;
     QNetworkAccessManager networkAccessManager;
+    QNetworkRequest request;
     QNetworkReply *networkReply;
 
     QMediaPlayer *mediaPlayer;

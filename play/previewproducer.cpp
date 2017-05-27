@@ -121,6 +121,7 @@ void PreviewProducer::process(QDir dir) {
 void PreviewProducer::process(QFileInfo tsFile) {
     PreviewJob job;
     job.ts = tsFile.absoluteFilePath();
+    job.error = false;
     int done = 0;
 
     QFile inFile(tsFile.absoluteFilePath());
@@ -156,7 +157,7 @@ void PreviewProducer::process(QFileInfo tsFile) {
 }
 
 void PreviewProducer::startImage() {
-    //qDebug() << "process start next";
+    //qDebug() << "process start next" << todo.length();
     if (todo.isEmpty()) {
         ui->textLog->append("Done");
         ui->buttonRun->setEnabled(true);
@@ -173,7 +174,6 @@ void PreviewProducer::startImage() {
 void PreviewProducer::slotProcessNetImage() {
     ui->textLog->append(QString("Download %1").arg(todo[0].url));
     //qDebug() << "processNetImage" << todo[0].url;
-    QNetworkRequest request;
     request.setUrl(todo[0].url);
     networkReply = networkAccessManager.get(request);
     connect(networkReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(slotNetworkError(QNetworkReply::NetworkError)));
@@ -183,8 +183,11 @@ void PreviewProducer::slotProcessNetImage() {
 
 void PreviewProducer::slotNetworkError(QNetworkReply::NetworkError err) {
     //qDebug() << "processNetImage ERROR" << todo[0].url;
-    ui->textLog->append(QString ("<span style=\"color:#c02020;\">Error %1 fetching %2</span>").arg(networkReply->errorString()).arg(todo[0].url));
-    QTimer::singleShot(200, this, SLOT(slotAfterProcessImage()));
+    if (!todo[0].error) {
+        todo[0].error = true;
+        ui->textLog->append(QString ("<span style=\"color:#c02020;\">Error %1 fetching %2</span>").arg(networkReply->errorString()).arg(todo[0].url));
+        QTimer::singleShot(500, this, SLOT(slotAfterProcessImage()));
+    }
 }
 
 void PreviewProducer::slotNetworkUpdateProgress(qint64 read, qint64 total) {
@@ -194,11 +197,11 @@ void PreviewProducer::slotNetworkUpdateProgress(qint64 read, qint64 total) {
 void PreviewProducer::slotNetworkFinished() {
     //qDebug() << "processNetImage Download" << todo[0].url;
     QImage p;
-    QByteArray b = networkReply->readAll();
+    QByteArray b = networkReply->read(networkReply->size());
     p.loadFromData(b);
-    saveImage(p);
     networkReply->deleteLater();
     networkReply = 0;
+    saveImage(p);
 }
 
 
@@ -228,9 +231,13 @@ void PreviewProducer::slotProcessVideo() {
 }
 
 void PreviewProducer::slotMediaPlayerError(QMediaPlayer::Error err) {
-    ui->textLog->append(QString ("<span style=\"color:#c02020;\">Error in Mediaplayer: %1</span>").arg(mediaPlayer->errorString()));
-    mediaPlayer->stop();
-    QTimer::singleShot(200, this, SLOT(slotAfterProcessImage()));
+    //qDebug() << "mediaplayer ERROR" << err << todo[0].url;
+    if (!todo[0].error) {
+        todo[0].error = true;
+        ui->textLog->append(QString ("<span style=\"color:#c02020;\">Error in Mediaplayer: %1</span>").arg(mediaPlayer->errorString()));
+        mediaPlayer->stop();
+        QTimer::singleShot(500, this, SLOT(slotAfterProcessImage()));
+    }
 }
 
 void PreviewProducer::slotProcessVideoFrame(const QVideoFrame &frame) {
