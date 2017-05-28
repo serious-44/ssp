@@ -52,8 +52,6 @@ VideoWidget::VideoWidget(QWidget *parent) :
     tryQuiet[0] = ClipType::QUIET;
     tryQuiet[1] = ClipType::QUIET_ZOOM;
 
-    backgroundWidget = new BackgroundWidget(this);
-
     idleTimer = new QTimer(this);
     idleTimer->setSingleShot(true);
     connect(idleTimer, SIGNAL(timeout()), this, SLOT(slotTimerElapsed()));
@@ -73,46 +71,90 @@ VideoWidget::VideoWidget(QWidget *parent) :
 
     mediaPlayer = new QMediaPlayer(this);
     mediaPlayer->setNotifyInterval(1000 / 25);
-    connect(mediaPlayer, SIGNAL(metaDataChanged(const QString&, const QVariant&)), this, SLOT(slotMetaDataChanged(const QString &, const QVariant &)));
+    connect(mediaPlayer, SIGNAL(metaDataAvailableChanged(bool)), this, SLOT(slotMetaDataAvailableChanged(bool)));
     connect(mediaPlayer, SIGNAL(positionChanged(qint64)), this, SLOT(slotPositionChanged(qint64)));
     connect(mediaPlayer, SIGNAL(error(QMediaPlayer::Error)), this, SLOT(slotMediaPlayerError(QMediaPlayer::Error)));
 
+#ifdef USE_VideoWidget
+    backgroundWidget = new BackgroundWidget(this);
     videoWidget = new QVideoWidget(this);
     videoWidget->setVisible(false);
     videoWidget->setAspectRatioMode(Qt::IgnoreAspectRatio);
     mediaPlayer->setVideoOutput(videoWidget);
+#endif
+#ifdef USE_GraphicsScene
+    view = new QGraphicsView(this);
+    scene = new QGraphicsScene(view);
+    item = new QGraphicsVideoItem();
+    view->setScene(scene);
+    scene->addItem(item);
+    background = new QGraphicsPixmapItem();
+    scene->addItem(background);
+    item->hide();
+    background->show();
+    mediaPlayer->setVideoOutput(item);
+#endif
 }
 
 VideoWidget::~VideoWidget() {
     mediaPlayer->stop();
     mediaPlayer->deleteLater();
     mediaPlayer = 0;
-    videoWidget->deleteLater();
-    videoWidget = 0;
-    delete backgroundWidget;
+    //videoWidget->deleteLater();
+    //videoWidget = 0;
+    //delete backgroundWidget;
 }
 
 void VideoWidget::init(int s) {
     seat = s;
+
+#ifdef USE_VideoWidget
     backgroundWidget->init(s);
+#endif
+#ifdef USE_GraphicsScene
+    QPixmap image;
+    if (seat == 1) {
+        image.load("://image/boucher-swan.jpg");
+    } else if (seat == 2) {
+        image.load("://image/goya.jpg");
+    } else if (seat == 3) {
+        image.load("://image/fragonard.jpg");
+    } else if (seat == 4) {
+        image.load("://image/boucher.jpg");
+    } else if (seat == 5) {
+        image.load("://image/rembrandt.jpg");
+    } else {
+        image.load("://misc/1px.png");
+    }
+    background->setPixmap(image);
+    resizeBackground();
+#endif
 }
 
 void VideoWidget::resizeEvent(QResizeEvent *event) {
     //qDebug() << "resize" << width() << height();
-    resizeVideo();
+#ifdef USE_VideoWidget
     backgroundWidget->setGeometry(0, 0, width(), height());
+    resizeVideo();
+#endif
+#ifdef USE_GraphicsScene
+    view->setGeometry(0, 0, width(), height());
+    resizeVideo();
+    resizeBackground();
+#endif
 }
 
-void VideoWidget::slotMetaDataChanged(const QString &key, const QVariant &value) {
-    //qDebug() << "slotMetaDataChanged" << key << value;
-    if (key == "Resolution") {
-        QSize size = value.toSize();
+void VideoWidget::slotMetaDataAvailableChanged(bool available) {
+    //qDebug() << "slotMetaDataAvsilableChanged" << available;
+    if (available) {
+        QSize size = mediaPlayer->metaData("Resolution").toSize();
         videoWidth = size.width();
         videoHeight = size.height();
+        resizeVideo();
     }
-    resizeVideo();
 }
 
+#ifdef USE_VideoWidget
 void VideoWidget::resizeVideo() {
     if (videoWidth <= 0 || videoHeight <= 0) {
         videoWidget->setGeometry(0, 0, width(), height());
@@ -133,6 +175,24 @@ void VideoWidget::resizeVideo() {
     }
     //qDebug() << "Geometry" << videoWidget->geometry().x() << videoWidget->geometry().y() << videoWidget->geometry().width() << videoWidget->geometry().height();
 }
+#endif
+#ifdef USE_GraphicsScene
+void VideoWidget::resizeVideo() {
+    if (videoWidth <= 0 || videoHeight <= 0) {
+    } else {
+        item->setSize(item->nativeSize());
+        view->fitInView(item, Qt::KeepAspectRatio);
+    }
+    //qDebug() << "Geometry" << videoWidget->geometry().x() << videoWidget->geometry().y() << videoWidget->geometry().width() << videoWidget->geometry().height();
+}
+#endif
+
+#ifdef USE_GraphicsScene
+void VideoWidget::resizeBackground() {
+    //background->setSize(background->nativeSize());
+    view->fitInView(background, Qt::KeepAspectRatio);
+}
+#endif
 
 void VideoWidget::slotPlayerSelected(int s, QString fn) {
     if (seat != s) {
@@ -143,8 +203,14 @@ void VideoWidget::slotPlayerSelected(int s, QString fn) {
     checkVideoQueue();
 
     if (fn.isEmpty()) {
+#ifdef USE_VideoWidget
         backgroundWidget->setVisible(true);
         videoWidget->setVisible(false);
+#endif
+#ifdef USE_GraphicsScene
+        background->show();
+        item->hide();
+#endif
     } else {
         readTimestampFile(fn);
 
@@ -153,9 +219,14 @@ void VideoWidget::slotPlayerSelected(int s, QString fn) {
         mediaPlayer->setMedia(QUrl::fromLocalFile(avi));
         active = true;
 
+#ifdef USE_VideoWidget
         backgroundWidget->setVisible(false);
         videoWidget->setVisible(true);
-
+#endif
+#ifdef USE_GraphicsScene
+        background->hide();
+        item->show();
+#endif
         enqueue(JobActionIntro, 4);
     }
 }
@@ -441,8 +512,12 @@ void VideoWidget::slotPositionChanged(qint64 position) {
 }
 
 void VideoWidget::slotStopVideo() {
+    qint64 p1 = mediaPlayer->position();
     mediaPlayer->pause();
+    //mediaPlayer->stop();
     mediaPlayer->setPosition(endTimestamp);
+    qint64 p2 = mediaPlayer->position();
+    //qDebug() << "mediaPlayer stop" << p1 << endTimestamp << p2;
     if (playingLoud) {
         mutex.lock();
         activeLoudClips--;
@@ -785,9 +860,13 @@ void VideoWidget::startVideo(int pieces, QString action1, QString action2, QStri
     }
     endTimestamp = clips[p].end - (1000 / 25);
     mediaPlayer->pause();
+    //mediaPlayer->stop();
     mediaPlayer->setMuted(clips[p].quiet == ClipSoundMute);
     mediaPlayer->setPosition(clips[p].start);
+    qint64 p1 = mediaPlayer->position();
     mediaPlayer->play();
+    qint64 p2 = mediaPlayer->position();
+    //qDebug() << "mediaPlayer start" << p1 << clips[p].start << p2;
     playing = true;
     idle = false;
     filler = fill;

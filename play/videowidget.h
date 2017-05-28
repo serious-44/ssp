@@ -15,6 +15,13 @@
 #include <QVideoWidget>
 #include <QStackedWidget>
 #include <QQueue>
+#include <QGraphicsView>
+#include <QGraphicsScene>
+#include <QGraphicsVideoItem>
+#include <QGraphicsPixmapItem>
+
+#define USE_VideoWidget
+//#define USE_GraphicsScene
 
 class Job {
 public:
@@ -61,7 +68,7 @@ public slots:
     void slotPlayerSelected(int seat, QString tsFileName);
     void slotPlayerAction(int seat, JobAction action, int pieces, bool needsSignalDone);
     void slotTimerElapsed();
-    void slotMetaDataChanged(const QString &key, const QVariant &value);
+    void slotMetaDataAvailableChanged(bool available);
     void slotPositionChanged(qint64);
     void slotStopVideo();
     void checkVideoQueue();
@@ -69,6 +76,9 @@ public slots:
 
 private:
     void resizeVideo();
+#ifdef USE_GraphicsScene
+    void resizeBackground();
+#endif
     void enqueue(JobAction todo, int pieces);
     void startVideo(int pieces, QString action1, bool dispensable, bool fill);
     void startVideo(int pieces, QString action1, QString action2, bool dispensable, bool fill);
@@ -115,8 +125,16 @@ private:
     QTimer *sequenceTimer;
 
     QMediaPlayer *mediaPlayer;
+#ifdef USE_VideoWidget
     QVideoWidget *videoWidget;
     BackgroundWidget *backgroundWidget;
+#endif
+#ifdef USE_GraphicsScene
+    QGraphicsScene *scene;
+    QGraphicsView *view;
+#endif
+    QGraphicsVideoItem *item;
+    QGraphicsPixmapItem *background;
 
     qint64 endTimestamp;
     QQueue<qint64> lruClips;

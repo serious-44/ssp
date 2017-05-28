@@ -92,7 +92,7 @@ ClipEditor::ClipEditor(QWidget *parent) :
     connect(ui->buttonTimestamp, SIGNAL (clicked(bool)), this, SLOT (slotTimestamp()));
     connect(ui->buttonScanAudio, SIGNAL (clicked()), this, SLOT (slotScanAudio()));
     connect(ui->buttonFind, SIGNAL (clicked()), this, SLOT (slotFind()));
-    connect(ui->editFind, SIGNAL (currentIndexChanged(int)()), this, SLOT (slotFind()));
+    connect(ui->editFind, SIGNAL (currentIndexChanged(int)), this, SLOT (slotFind()));
     connect(ui->buttonCheck, SIGNAL (clicked()), this, SLOT (slotCheck()));
     connect(ui->buttonGenerateExtra, SIGNAL (clicked()), this, SLOT (slotGenerateExtra()));
 
@@ -103,8 +103,7 @@ ClipEditor::ClipEditor(QWidget *parent) :
     mediaPlayerStart = new QMediaPlayer();
     //currentPosition = 0;
     connect(mediaPlayer, SIGNAL(positionChanged(qint64)), this, SLOT(slotPositionChanged(qint64)));
-    connect(mediaPlayer, SIGNAL(metaDataChanged(const QString&, const QVariant&)), this, SLOT(slotMetaDataChanged(const QString &, const QVariant &)));
-    connect(mediaPlayer, SIGNAL(durationChanged(qint64)), this, SLOT(slotDurationChanged(qint64)));
+    connect(mediaPlayer, SIGNAL(metaDataAvailableChanged(bool)), this, SLOT(slotMetaDataAvailableChanged(bool)));
     connect(mediaPlayer, SIGNAL(error(QMediaPlayer::Error)), this, SLOT(slotMediaPlayerError(QMediaPlayer::Error)));
     connect(mediaPlayerEnd, SIGNAL(error(QMediaPlayer::Error)), this, SLOT(slotMediaPlayerError(QMediaPlayer::Error)));
     connect(mediaPlayerStart, SIGNAL(error(QMediaPlayer::Error)), this, SLOT(slotMediaPlayerError(QMediaPlayer::Error)));
@@ -128,8 +127,6 @@ ClipEditor::ClipEditor(QWidget *parent) :
     ui->videoViewStart->setAutoFillBackground(true);
     mediaPlayerEnd->setVideoOutput(ui->videoViewEnd);
     mediaPlayerStart->setVideoOutput(ui->videoViewStart);
-
-
 
     //QAudioProbe p;
     //bool ok = p.setSource(mediaPlayer);
@@ -1123,16 +1120,12 @@ void ClipEditor::slotPositionChanged(qint64 t) {
     inSlotPositionChanged = false;
 }
 
-void ClipEditor::slotMetaDataChanged(const QString &key, const QVariant &/*value*/) {
-    if (key == "Resolution") {
-        //qDebug() << "slotMetaDataChanged" << key << value;
+void ClipEditor::slotMetaDataAvailableChanged(bool available) {
+    //qDebug() << "slotMetaDataAvsilableChanged" << available;
+    if (available) {
+        duration = mediaPlayer->metaData("Duration").toLongLong();
         ui->videoView->videoChanged();
     }
-}
-
-void ClipEditor::slotDurationChanged(qint64 dur) {
-    //qDebug() << "slotDurationChanged" << dur;
-    duration = dur;
 }
 
 void ClipEditor::slotMediaPlayerError(QMediaPlayer::Error err) {
