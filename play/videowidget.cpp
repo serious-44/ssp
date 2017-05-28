@@ -58,6 +58,10 @@ VideoWidget::VideoWidget(QWidget *parent) :
     idleTimer->setSingleShot(true);
     connect(idleTimer, SIGNAL(timeout()), this, SLOT(slotTimerElapsed()));
 
+    stopTimer = new QTimer(this);
+    stopTimer->setSingleShot(true);
+    connect(stopTimer, SIGNAL(timeout()), this, SLOT(slotStopVideo()));
+
     doneTimer = new QTimer(this);
     doneTimer->setSingleShot(true);
     connect(doneTimer, SIGNAL(timeout()), this, SLOT(checkVideoQueue()));
@@ -431,16 +435,20 @@ void VideoWidget::slotPositionChanged(qint64 position) {
     if (active && playing) {
         if (position >= endTimestamp - (1000 / 25)) {
             playing = false;
-            mediaPlayer->pause();
-            mediaPlayer->setPosition(endTimestamp);
-            if (playingLoud) {
-                mutex.lock();
-                activeLoudClips--;
-                //qDebug() << seat << "end: activeLoudClips--" << activeLoudClips;
-                mutex.unlock();
-                playingLoud = false;
-            }
+            stopTimer->start(0);
         }
+    }
+}
+
+void VideoWidget::slotStopVideo() {
+    mediaPlayer->pause();
+    mediaPlayer->setPosition(endTimestamp);
+    if (playingLoud) {
+        mutex.lock();
+        activeLoudClips--;
+        //qDebug() << seat << "end: activeLoudClips--" << activeLoudClips;
+        mutex.unlock();
+        playingLoud = false;
     }
     doneTimer->start(100);
 }

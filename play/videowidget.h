@@ -63,6 +63,7 @@ public slots:
     void slotTimerElapsed();
     void slotMetaDataChanged(const QString &key, const QVariant &value);
     void slotPositionChanged(qint64);
+    void slotStopVideo();
     void checkVideoQueue();
     void slotMediaPlayerError(QMediaPlayer::Error err);
 
@@ -109,6 +110,7 @@ private:
     QVector<ClipTimes> emptyClips;
     QQueue<Job> videoQueue;
     QTimer *idleTimer;
+    QTimer *stopTimer;
     QTimer *doneTimer;
     QTimer *sequenceTimer;
 
