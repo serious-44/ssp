@@ -13,6 +13,7 @@ VideoWidget::VideoWidget(QWidget *parent) :
     playing(false),
     playingLoud(false),
     idle(false),
+    needsStart(false),
     gameOver(true),
     videoWidth(-1),
     videoHeight(-1)
@@ -503,10 +504,21 @@ void VideoWidget::enqueue(JobAction todo, int pieces) {
 }
 
 void VideoWidget::slotPositionChanged(qint64 position) {
-    if (active && playing) {
-        if (position >= endTimestamp - (1000 / 25)) {
-            playing = false;
-            stopTimer->start(0);
+    if (active) {
+        if (needsStart) {
+            if (position > startTimestamp - 100 && position < startTimestamp + 100) {
+                qDebug() << "mediaPlayer start" << position << startTimestamp << "->" << endTimestamp << "=" << mediaPlayer->position();
+                needsStart = false;
+                QTimer::singleShot(0, mediaPlayer, SLOT(play()));
+            } else {
+                qDebug() << "mediaPlayer no start" << position;
+            }
+        } else if (playing) {
+            if (position >= endTimestamp - (1000 / 25)) {
+                qDebug() << "mediaPlayer position" << position;
+                playing = false;
+                stopTimer->start(0);
+            }
         }
     }
 }
@@ -514,10 +526,9 @@ void VideoWidget::slotPositionChanged(qint64 position) {
 void VideoWidget::slotStopVideo() {
     qint64 p1 = mediaPlayer->position();
     mediaPlayer->pause();
-    //mediaPlayer->stop();
     mediaPlayer->setPosition(endTimestamp);
     qint64 p2 = mediaPlayer->position();
-    //qDebug() << "mediaPlayer stop" << p1 << endTimestamp << p2;
+    qDebug() << "mediaPlayer stop" << p1 << endTimestamp << "=" << p2;
     if (playingLoud) {
         mutex.lock();
         activeLoudClips--;
@@ -858,18 +869,21 @@ void VideoWidget::startVideo(int pieces, QString action1, QString action2, QStri
     if (len < 100) {
        len = 100;
     }
+    startTimestamp = clips[p].start;
     endTimestamp = clips[p].end - (1000 / 25);
     mediaPlayer->pause();
-    //mediaPlayer->stop();
+    qint64 p1 = mediaPlayer->position();
     mediaPlayer->setMuted(clips[p].quiet == ClipSoundMute);
     mediaPlayer->setPosition(clips[p].start);
-    qint64 p1 = mediaPlayer->position();
-    mediaPlayer->play();
     qint64 p2 = mediaPlayer->position();
-    //qDebug() << "mediaPlayer start" << p1 << clips[p].start << p2;
+    //mediaPlayer->play();
+    //QTimer::singleShot(100, mediaPlayer, SLOT(play()));
+    qint64 p3 = mediaPlayer->position();
+    qDebug() << "mediaPlayer setposition" << p1 << clips[p].start << "->" << clips[p].end << "=" << p2 << p3;
     playing = true;
     idle = false;
     filler = fill;
+    needsStart = true;
 }
 
 QMutex VideoWidget::mutex;

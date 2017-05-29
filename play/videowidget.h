@@ -1,6 +1,9 @@
 #ifndef VIDEOWIDGET_H
 #define VIDEOWIDGET_H
 
+//#define USE_VideoWidget
+#define USE_GraphicsScene
+
 #include "backgroundwidget.h"
 #include "util.h"
 
@@ -12,16 +15,18 @@
 #include <QCloseEvent>
 #include <QMutex>
 #include <QMediaPlayer>
-#include <QVideoWidget>
 #include <QStackedWidget>
 #include <QQueue>
+#ifdef USE_VideoWidget
+#include <QVideoWidget>
+#endif
+#ifdef USE_GraphicsScene
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QGraphicsVideoItem>
 #include <QGraphicsPixmapItem>
+#endif
 
-#define USE_VideoWidget
-//#define USE_GraphicsScene
 
 class Job {
 public:
@@ -101,6 +106,7 @@ private:
     bool playingLoud;
     bool idle;
     bool filler;
+    bool needsStart;
 
     int pieces;
     bool hasCards;
@@ -136,6 +142,7 @@ private:
     QGraphicsVideoItem *item;
     QGraphicsPixmapItem *background;
 
+    qint64 startTimestamp;
     qint64 endTimestamp;
     QQueue<qint64> lruClips;
 
