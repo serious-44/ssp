@@ -77,35 +77,18 @@ VideoWidget::VideoWidget(QWidget *parent) :
     connect(mediaPlayer, SIGNAL(positionChanged(qint64)), this, SLOT(slotPositionChanged(qint64)));
     connect(mediaPlayer, SIGNAL(error(QMediaPlayer::Error)), this, SLOT(slotMediaPlayerError(QMediaPlayer::Error)));
 
-    stackedLayout = new QStackedLayout();
-    backgroundWidget = new BackgroundWidget(this);
-    stackedLayout->addWidget(backgroundWidget);
-#ifdef USE_VideoWidget
-    videoWidget = new QVideoWidget(this);
-    videoWidget->setVisible(false);
-    videoWidget->setAspectRatioMode(Qt::IgnoreAspectRatio);
-    mediaPlayer->setVideoOutput(videoWidget);
-    stackedLayout->addWidget(videoWidget);
-#endif
-#ifdef USE_GraphicsScene
     view = new QGraphicsView(this);
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     view->setFrameStyle(QFrame::NoFrame);
     scene = new QGraphicsScene(view);
+    view->setScene(scene);
+    background = new QGraphicsPixmapItem();
+    scene->addItem(background);
     item = new QGraphicsVideoItem();
     mediaPlayer->setVideoOutput(item);
-    view->setScene(scene);
     scene->addItem(item);
-    stackedLayout->addWidget(view);
-#endif
-
-    QVBoxLayout *mainLayout = new QVBoxLayout;
-    mainLayout->setContentsMargins(0, 0, 0, 0);
-    mainLayout->addLayout(stackedLayout);
-    setLayout(mainLayout);
-    stackedLayout->setCurrentIndex(0);
 }
 
 VideoWidget::~VideoWidget() {
@@ -119,12 +102,28 @@ VideoWidget::~VideoWidget() {
 
 void VideoWidget::init(int s) {
     seat = s;
-    backgroundWidget->init(s);
+
+    QPixmap image;
+    if (seat == 1) {
+        image.load("://image/boucher-swan.jpg");
+    } else if (seat == 2) {
+        image.load("://image/goya.jpg");
+    } else if (seat == 3) {
+        image.load("://image/fragonard.jpg");
+    } else if (seat == 4) {
+        image.load("://image/boucher.jpg");
+    } else if (seat == 5) {
+        image.load("://image/rembrandt.jpg");
+    } else {
+        image.load("://misc/1px.png");
+    }
+    background->setPixmap(image);
+    resizeVideo();
 }
 
 void VideoWidget::resizeEvent(QResizeEvent *event) {
-    qDebug() << "resize" << width() << height();
-    QWidget::resizeEvent(event);
+    //qDebug() << "resize" << width() << height();
+    view->setGeometry(0, 0, width(), height());
     resizeVideo();
 }
 
@@ -151,54 +150,40 @@ void VideoWidget::slotMetaDataAvailableChanged(bool available) {
     }
 }
 
-#ifdef USE_VideoWidget
 void VideoWidget::resizeVideo() {
-    if (videoWidth <= 0 || videoHeight <= 0) {
-        videoWidget->setGeometry(0, 0, width(), height());
-    } else {
-        float imageRatio = (float)videoWidth / videoHeight;
-        float widgetRatio = (float)width() / height();
-        if(imageRatio > widgetRatio) {
-            int newWidth = (int)(height() * imageRatio);
-            int offset = (newWidth - width()) / -2;
-            //qDebug() << "setGeometry" << offset << 0 << newWidth << height();
-            videoWidget->setGeometry(offset, 0, newWidth, height());
-        } else {
-            int newHeight = (int)(width() / imageRatio);
-            int offset = (newHeight - height()) / -2;
-            //qDebug() << "setGeometry" << 0 << offset << width() << newHeight;
-            videoWidget->setGeometry(0, offset, width(), newHeight);
-        }
-    }
-    //qDebug() << "Geometry" << videoWidget->geometry().x() << videoWidget->geometry().y() << videoWidget->geometry().width() << videoWidget->geometry().height();
-}
-#endif
-#ifdef USE_GraphicsScene
-void VideoWidget::resizeVideo() {
-    if (item->isVisible()) {
-        if (videoWidth <= 0 || videoHeight <= 0) {
-        } else {
-            item->setSize(item->nativeSize());
-            //view->fitInView(item, Qt::KeepAspectRatio); //uses margin=2
-            //double ratio = (double)(width()+4) / (double)videoWidth;
-            //double yRatio = (double)(height()+4) / (double)videoHeight;
-            double ratio = (double)(width()) / (double)videoWidth;
-            double yRatio = (double)(height()) / (double)videoHeight;
+    if (!active || videoWidth <= 0 || videoHeight <= 0) {
+        if (seat > 0) {
+            item->setSize(QSize(10000, 10000)); // no video without this line ???
+            QSize size(background->pixmap().size());
+            double ratio = (double)(width()) / (double)size.width();
+            double yRatio = (double)(height()) / (double)size.height();
             if (yRatio > ratio) {
                 ratio = yRatio;
             }
             if (ratio == 0) {
                 ratio = 1;
             }
-            qDebug() << seat << "video size" << geometry() << videoWidth << videoHeight << "=" << ratio;
+            //qDebug() << seat << "background size" << geometry() << size.width() << size.height() << "=" << ratio;
             view->resetTransform();
             view->scale(ratio, ratio);
-            //view->centerOn(QPoint(videoWidth / 2 + 2, videoHeight / 2 + 2));
-            view->centerOn(QPoint(videoWidth / 2, videoHeight / 2));
+            view->centerOn(QPoint(size.width() / 2, size.height() / 2));
         }
+    } else {
+        item->setSize(item->nativeSize());
+        double ratio = (double)(width()) / (double)videoWidth;
+        double yRatio = (double)(height()) / (double)videoHeight;
+        if (yRatio > ratio) {
+            ratio = yRatio;
+        }
+        if (ratio == 0) {
+            ratio = 1;
+        }
+        //qDebug() << seat << "video size" << geometry() << videoWidth << videoHeight << "=" << ratio;
+        view->resetTransform();
+        view->scale(ratio, ratio);
+        view->centerOn(QPoint(videoWidth / 2, videoHeight / 2));
     }
 }
-#endif
 
 void VideoWidget::slotPlayerSelected(int s, QString fn) {
     if (seat != s) {
@@ -209,7 +194,7 @@ void VideoWidget::slotPlayerSelected(int s, QString fn) {
     checkVideoQueue();
 
     if (fn.isEmpty()) {
-        stackedLayout->setCurrentIndex(0);
+        //background->show();
     } else {
         readTimestampFile(fn);
 
@@ -218,7 +203,7 @@ void VideoWidget::slotPlayerSelected(int s, QString fn) {
         mediaPlayer->setMedia(QUrl::fromLocalFile(avi));
         active = true;
 
-        stackedLayout->setCurrentIndex(1);
+        //background->hide();
 
         enqueue(JobActionIntro, 4);
     }
@@ -499,15 +484,15 @@ void VideoWidget::slotPositionChanged(qint64 position) {
     if (active) {
         if (needsStart) {
             if (position > startTimestamp - 100 && position < startTimestamp + 100) {
-                qDebug() << "mediaPlayer start" << position << startTimestamp << "->" << endTimestamp << "=" << mediaPlayer->position();
+                //qDebug() << "mediaPlayer start" << position << startTimestamp << "->" << endTimestamp << "=" << mediaPlayer->position();
                 needsStart = false;
                 QTimer::singleShot(0, mediaPlayer, SLOT(play()));
             } else {
-                qDebug() << "mediaPlayer no start" << position;
+                //qDebug() << "mediaPlayer no start" << position;
             }
         } else if (playing) {
             if (position >= endTimestamp - (1000 / 25)) {
-                qDebug() << "mediaPlayer position" << position;
+                //qDebug() << "mediaPlayer position" << position;
                 playing = false;
                 stopTimer->start(0);
             }
@@ -520,7 +505,7 @@ void VideoWidget::slotStopVideo() {
     mediaPlayer->pause();
     mediaPlayer->setPosition(endTimestamp);
     qint64 p2 = mediaPlayer->position();
-    qDebug() << "mediaPlayer stop" << p1 << endTimestamp << "=" << p2;
+    //qDebug() << "mediaPlayer stop" << p1 << endTimestamp << "=" << p2;
     if (playingLoud) {
         mutex.lock();
         activeLoudClips--;
@@ -871,7 +856,7 @@ void VideoWidget::startVideo(int pieces, QString action1, QString action2, QStri
     //mediaPlayer->play();
     //QTimer::singleShot(100, mediaPlayer, SLOT(play()));
     qint64 p3 = mediaPlayer->position();
-    qDebug() << "mediaPlayer setposition" << p1 << clips[p].start << "->" << clips[p].end << "=" << p2 << p3;
+    //qDebug() << "mediaPlayer setposition" << p1 << clips[p].start << "->" << clips[p].end << "=" << p2 << p3;
     playing = true;
     idle = false;
     filler = fill;

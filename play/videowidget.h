@@ -1,9 +1,6 @@
 #ifndef VIDEOWIDGET_H
 #define VIDEOWIDGET_H
 
-//#define USE_VideoWidget
-#define USE_GraphicsScene
-
 #include "backgroundwidget.h"
 #include "util.h"
 
@@ -17,18 +14,10 @@
 #include <QMediaPlayer>
 #include <QStackedWidget>
 #include <QQueue>
-#include <QStackedLayout>
-#include <QVBoxLayout>
-#ifdef USE_VideoWidget
-#include <QVideoWidget>
-#endif
-#ifdef USE_GraphicsScene
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QGraphicsVideoItem>
 #include <QGraphicsPixmapItem>
-#endif
-
 
 class Job {
 public:
@@ -97,7 +86,6 @@ signals:
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);
-    //virtual void paintEvent(QPaintEvent *event);
 
 private:
     int seat;
@@ -130,17 +118,11 @@ private:
     QTimer *doneTimer;
     QTimer *sequenceTimer;
 
-    QStackedLayout *stackedLayout;
-    BackgroundWidget *backgroundWidget;
     QMediaPlayer *mediaPlayer;
-#ifdef USE_VideoWidget
-    QVideoWidget *videoWidget;
-#endif
-#ifdef USE_GraphicsScene
     QGraphicsScene *scene;
     QGraphicsView *view;
     QGraphicsVideoItem *item;
-#endif
+    QGraphicsPixmapItem *background;
 
     qint64 startTimestamp;
     qint64 endTimestamp;
@@ -151,7 +133,6 @@ private:
     ClipType tryQuiet[2];
     static QMutex mutex;
     static int activeLoudClips;
-
 };
 
 #endif // VIDEOWIDGET_H
