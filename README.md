@@ -2,7 +2,21 @@ This is a single player video strip poker game.
 
 You play serious Texas Hold'em against 1-5 non-player characters. The purpose of serious strip poker is to win the game. Don't get distracted by the undressing girls.
 
+
+--- Nerve-racking bugs
+
+On Windows the the videos are too bad. There are jumps and flashes. The HD videos have black areas. And sometimes the video don't start. You have to resize the window.
+
+I'm told, this task needs a different video-library. But this is not on my top priority list, I am using Linux. Sorry.
+
 Version 0.0.0  Use at your own risk.
+
+
+---- Installing the program
+
+There is a Windwos binary. Up to now, there is no installer. Just download the zip. Unpack it and start ssp.exe from your file explorer.
+
+To run this program on Linux, you have to compile it yourself. Trolltech claims, you can also compile it in a Mac.
 
 
 ---- Getting the videos
@@ -30,13 +44,6 @@ After selecting the girls, you will see a message "no preview image".
 - Click on the "Generate Preview" button.
 - Or put a jpg into the directory next to the timestamp file.
 - Or ignore the message.
-
-
----- Installing the program
-
-There is a Windwos binary. Up to now, there is no installer. Just download the zip. Unpack it and start ssp.exe from your file explorer.
-
-To run this program on Linux, you have to compile it yourself. Trolltech claims, you can also compile it in a Mac.
 
 
 ---- Playing Poker
@@ -76,15 +83,15 @@ If you don't want to install the git tools, just click die green Button on https
 This page describes how to install the git client.
 https://stackoverflow.com/questions/27708127/setup-git-in-qt-creator
 
-On Ubuntu Linux, things get more difficult.
+On Ubuntu Linux, intalling QtCreator is more complex.
 
-The qtdesigner ubuntu package is too old for a QT5 application. Trolltech changed ther download procedure, so the tips on askubuntu don't work any more.
+The qtcreator ubuntu package is too old for a QT5 application. Trolltech changed ther download procedure, so the tips on askubuntu don't work any more.
 Use http://download.qt.io/official_releases/qtcreator/4.3/4.3.0/qt-creator-opensource-linux-x86_64-4.3.0.run
 
 It doesn't install the development libraries -- use the package manager of your distribution.
 (The package names are messed up. https://askubuntu.com/questions/508503/whats-the-development-package-for-qt5-in-14-04)
 
-This video describes how to use github with the command line tool.
+This video describes how to use the git command line tools wit qtcreator and github.
 https://www.youtube.com/watch?v=qlPSV7Bs3rE
 
 
