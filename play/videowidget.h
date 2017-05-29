@@ -17,6 +17,8 @@
 #include <QMediaPlayer>
 #include <QStackedWidget>
 #include <QQueue>
+#include <QStackedLayout>
+#include <QVBoxLayout>
 #ifdef USE_VideoWidget
 #include <QVideoWidget>
 #endif
@@ -82,9 +84,6 @@ public slots:
 
 private:
     void resizeVideo();
-#ifdef USE_GraphicsScene
-    void resizeBackground();
-#endif
     void enqueue(JobAction todo, int pieces);
     void startVideo(int pieces, QString action1, bool dispensable, bool fill);
     void startVideo(int pieces, QString action1, QString action2, bool dispensable, bool fill);
@@ -131,17 +130,17 @@ private:
     QTimer *doneTimer;
     QTimer *sequenceTimer;
 
+    QStackedLayout *stackedLayout;
+    BackgroundWidget *backgroundWidget;
     QMediaPlayer *mediaPlayer;
 #ifdef USE_VideoWidget
     QVideoWidget *videoWidget;
-    BackgroundWidget *backgroundWidget;
 #endif
 #ifdef USE_GraphicsScene
     QGraphicsScene *scene;
     QGraphicsView *view;
-#endif
     QGraphicsVideoItem *item;
-    QGraphicsPixmapItem *background;
+#endif
 
     qint64 startTimestamp;
     qint64 endTimestamp;

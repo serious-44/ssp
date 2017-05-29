@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui multimedia multimediawidgets opengl
+QT       += core gui multimedia multimediawidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -13,7 +13,7 @@ TEMPLATE = app
 
 QMAKE_CXXFLAGS += -Wno-unused-parameter -std=c++11
 
-DEFINES += ENABLE_IPV6 TIXML_USE_STL BOOST_FILESYSTEM_DEPRECATED
+DEFINES += ENABLE_IPV6
 
 INCLUDEPATH +=  . \
                 play \
@@ -178,10 +178,6 @@ FORMS    += \
     play/mainwindow.ui \
     edit/clipeditor.ui \
     play/previewproducer.ui
-
-#LIBS += /usr/lib/x86_64-linux-gnu/libboost_thread.a
-#LIBS += /usr/lib/x86_64-linux-gnu/libboost_random.a
-#LIBS += /usr/lib/x86_64-linux-gnu/libboost_system.a
 
 DISTFILES += \
     TODO \

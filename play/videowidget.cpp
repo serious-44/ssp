@@ -77,26 +77,35 @@ VideoWidget::VideoWidget(QWidget *parent) :
     connect(mediaPlayer, SIGNAL(positionChanged(qint64)), this, SLOT(slotPositionChanged(qint64)));
     connect(mediaPlayer, SIGNAL(error(QMediaPlayer::Error)), this, SLOT(slotMediaPlayerError(QMediaPlayer::Error)));
 
-#ifdef USE_VideoWidget
+    stackedLayout = new QStackedLayout();
     backgroundWidget = new BackgroundWidget(this);
+    stackedLayout->addWidget(backgroundWidget);
+#ifdef USE_VideoWidget
     videoWidget = new QVideoWidget(this);
     videoWidget->setVisible(false);
     videoWidget->setAspectRatioMode(Qt::IgnoreAspectRatio);
     mediaPlayer->setVideoOutput(videoWidget);
+    stackedLayout->addWidget(videoWidget);
 #endif
 #ifdef USE_GraphicsScene
     view = new QGraphicsView(this);
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    view->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    view->setFrameStyle(QFrame::NoFrame);
     scene = new QGraphicsScene(view);
-    background = new QGraphicsPixmapItem();
-    scene->addItem(background);
     item = new QGraphicsVideoItem();
     mediaPlayer->setVideoOutput(item);
     view->setScene(scene);
     scene->addItem(item);
-    item->hide();
+    stackedLayout->addWidget(view);
 #endif
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->setContentsMargins(0, 0, 0, 0);
+    mainLayout->addLayout(stackedLayout);
+    setLayout(mainLayout);
+    stackedLayout->setCurrentIndex(0);
 }
 
 VideoWidget::~VideoWidget() {
@@ -110,41 +119,13 @@ VideoWidget::~VideoWidget() {
 
 void VideoWidget::init(int s) {
     seat = s;
-
-#ifdef USE_VideoWidget
     backgroundWidget->init(s);
-#endif
-#ifdef USE_GraphicsScene
-    QPixmap image;
-    if (seat == 1) {
-        image.load("://image/boucher-swan.jpg");
-    } else if (seat == 2) {
-        image.load("://image/goya.jpg");
-    } else if (seat == 3) {
-        image.load("://image/fragonard.jpg");
-    } else if (seat == 4) {
-        image.load("://image/boucher.jpg");
-    } else if (seat == 5) {
-        image.load("://image/rembrandt.jpg");
-    } else {
-        image.load("://misc/1px.png");
-    }
-    background->setPixmap(image);
-    resizeBackground();
-#endif
 }
 
 void VideoWidget::resizeEvent(QResizeEvent *event) {
     qDebug() << "resize" << width() << height();
-#ifdef USE_VideoWidget
-    backgroundWidget->setGeometry(0, 0, width(), height());
+    QWidget::resizeEvent(event);
     resizeVideo();
-#endif
-#ifdef USE_GraphicsScene
-    view->setGeometry(0, 0, width(), height());
-    resizeVideo();
-    resizeBackground();
-#endif
 }
 
 void VideoWidget::slotMetaDataChanged(const QString &key, const QVariant &value) {
@@ -199,8 +180,10 @@ void VideoWidget::resizeVideo() {
         } else {
             item->setSize(item->nativeSize());
             //view->fitInView(item, Qt::KeepAspectRatio); //uses margin=2
-            double ratio = (double)(width()+2) / (double)videoWidth;
-            double yRatio = (double)(height()+2) / (double)videoHeight;
+            //double ratio = (double)(width()+4) / (double)videoWidth;
+            //double yRatio = (double)(height()+4) / (double)videoHeight;
+            double ratio = (double)(width()) / (double)videoWidth;
+            double yRatio = (double)(height()) / (double)videoHeight;
             if (yRatio > ratio) {
                 ratio = yRatio;
             }
@@ -210,29 +193,9 @@ void VideoWidget::resizeVideo() {
             qDebug() << seat << "video size" << geometry() << videoWidth << videoHeight << "=" << ratio;
             view->resetTransform();
             view->scale(ratio, ratio);
+            //view->centerOn(QPoint(videoWidth / 2 + 2, videoHeight / 2 + 2));
             view->centerOn(QPoint(videoWidth / 2, videoHeight / 2));
         }
-    }
-}
-#endif
-
-#ifdef USE_GraphicsScene
-void VideoWidget::resizeBackground() {
-    if (background->isVisible()) {
-        //view->fitInView(background, Qt::KeepAspectRatioByExpanding); uses margin=2
-        QSize size = background->pixmap().size();
-        double ratio = (double)(width()+2) / (double)size.width();
-        double yRatio = (double)(height()+2) / (double)size.height();
-        if (yRatio > ratio) {
-            ratio = yRatio;
-        }
-        if (ratio == 0) {
-            ratio = 1;
-        }
-        qDebug() << seat << "background size" << geometry() << size << "=" << ratio;
-        view->resetTransform();
-        view->scale(ratio, ratio);
-        view->centerOn(QPoint(size.width() / 2, size.height() / 2));
     }
 }
 #endif
@@ -246,15 +209,7 @@ void VideoWidget::slotPlayerSelected(int s, QString fn) {
     checkVideoQueue();
 
     if (fn.isEmpty()) {
-#ifdef USE_VideoWidget
-        backgroundWidget->setVisible(true);
-        videoWidget->setVisible(false);
-#endif
-#ifdef USE_GraphicsScene
-        background->show();
-        item->hide();
-        resizeBackground();
-#endif
+        stackedLayout->setCurrentIndex(0);
     } else {
         readTimestampFile(fn);
 
@@ -263,15 +218,8 @@ void VideoWidget::slotPlayerSelected(int s, QString fn) {
         mediaPlayer->setMedia(QUrl::fromLocalFile(avi));
         active = true;
 
-#ifdef USE_VideoWidget
-        backgroundWidget->setVisible(false);
-        videoWidget->setVisible(true);
-#endif
-#ifdef USE_GraphicsScene
-        item->show();
-        background->hide();
-        resizeVideo();
-#endif
+        stackedLayout->setCurrentIndex(1);
+
         enqueue(JobActionIntro, 4);
     }
 }
