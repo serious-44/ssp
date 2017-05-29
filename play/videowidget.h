@@ -74,6 +74,7 @@ public slots:
     void slotPlayerAction(int seat, JobAction action, int pieces, bool needsSignalDone);
     void slotTimerElapsed();
     void slotMetaDataAvailableChanged(bool available);
+    void slotMetaDataChanged(const QString &key, const QVariant &value);
     void slotPositionChanged(qint64);
     void slotStopVideo();
     void checkVideoQueue();

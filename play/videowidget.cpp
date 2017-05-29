@@ -72,6 +72,7 @@ VideoWidget::VideoWidget(QWidget *parent) :
 
     mediaPlayer = new QMediaPlayer(this);
     mediaPlayer->setNotifyInterval(1000 / 25);
+    connect(mediaPlayer, SIGNAL(metaDataChanged(const QString&, const QVariant&)), this, SLOT(slotMetaDataChanged(const QString &, const QVariant &)));
     connect(mediaPlayer, SIGNAL(metaDataAvailableChanged(bool)), this, SLOT(slotMetaDataAvailableChanged(bool)));
     connect(mediaPlayer, SIGNAL(positionChanged(qint64)), this, SLOT(slotPositionChanged(qint64)));
     connect(mediaPlayer, SIGNAL(error(QMediaPlayer::Error)), this, SLOT(slotMediaPlayerError(QMediaPlayer::Error)));
@@ -85,15 +86,16 @@ VideoWidget::VideoWidget(QWidget *parent) :
 #endif
 #ifdef USE_GraphicsScene
     view = new QGraphicsView(this);
+    view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scene = new QGraphicsScene(view);
-    item = new QGraphicsVideoItem();
-    view->setScene(scene);
-    scene->addItem(item);
     background = new QGraphicsPixmapItem();
     scene->addItem(background);
-    item->hide();
-    background->show();
+    item = new QGraphicsVideoItem();
     mediaPlayer->setVideoOutput(item);
+    view->setScene(scene);
+    scene->addItem(item);
+    item->hide();
 #endif
 }
 
@@ -133,7 +135,7 @@ void VideoWidget::init(int s) {
 }
 
 void VideoWidget::resizeEvent(QResizeEvent *event) {
-    //qDebug() << "resize" << width() << height();
+    qDebug() << "resize" << width() << height();
 #ifdef USE_VideoWidget
     backgroundWidget->setGeometry(0, 0, width(), height());
     resizeVideo();
@@ -145,13 +147,26 @@ void VideoWidget::resizeEvent(QResizeEvent *event) {
 #endif
 }
 
-void VideoWidget::slotMetaDataAvailableChanged(bool available) {
-    //qDebug() << "slotMetaDataAvsilableChanged" << available;
-    if (available) {
-        QSize size = mediaPlayer->metaData("Resolution").toSize();
+void VideoWidget::slotMetaDataChanged(const QString &key, const QVariant &value) {
+    //qDebug() << "slotMetaDataChanged" << key << value;
+    if (key == "Resolution") {
+        QSize size = value.toSize();
         videoWidth = size.width();
         videoHeight = size.height();
         resizeVideo();
+    }
+}
+
+void VideoWidget::slotMetaDataAvailableChanged(bool available) {
+    //qDebug() << "slotMetaDataAvsilableChanged" << available;
+    if (available) {
+        QVariant s = mediaPlayer->metaData("Resolution");
+        if (s.isValid()) {
+            QSize size = mediaPlayer->metaData("Resolution").toSize();
+            videoWidth = size.width();
+            videoHeight = size.height();
+            resizeVideo();
+        }
     }
 }
 
@@ -179,19 +194,46 @@ void VideoWidget::resizeVideo() {
 #endif
 #ifdef USE_GraphicsScene
 void VideoWidget::resizeVideo() {
-    if (videoWidth <= 0 || videoHeight <= 0) {
-    } else {
-        item->setSize(item->nativeSize());
-        view->fitInView(item, Qt::KeepAspectRatio);
+    if (item->isVisible()) {
+        if (videoWidth <= 0 || videoHeight <= 0) {
+        } else {
+            item->setSize(item->nativeSize());
+            //view->fitInView(item, Qt::KeepAspectRatio); //uses margin=2
+            double ratio = (double)(width()+2) / (double)videoWidth;
+            double yRatio = (double)(height()+2) / (double)videoHeight;
+            if (yRatio > ratio) {
+                ratio = yRatio;
+            }
+            if (ratio == 0) {
+                ratio = 1;
+            }
+            qDebug() << seat << "video size" << geometry() << videoWidth << videoHeight << "=" << ratio;
+            view->resetTransform();
+            view->scale(ratio, ratio);
+            view->centerOn(QPoint(videoWidth / 2, videoHeight / 2));
+        }
     }
-    //qDebug() << "Geometry" << videoWidget->geometry().x() << videoWidget->geometry().y() << videoWidget->geometry().width() << videoWidget->geometry().height();
 }
 #endif
 
 #ifdef USE_GraphicsScene
 void VideoWidget::resizeBackground() {
-    //background->setSize(background->nativeSize());
-    view->fitInView(background, Qt::KeepAspectRatio);
+    if (background->isVisible()) {
+        //view->fitInView(background, Qt::KeepAspectRatioByExpanding); uses margin=2
+        QSize size = background->pixmap().size();
+        double ratio = (double)(width()+2) / (double)size.width();
+        double yRatio = (double)(height()+2) / (double)size.height();
+        if (yRatio > ratio) {
+            ratio = yRatio;
+        }
+        if (ratio == 0) {
+            ratio = 1;
+        }
+        qDebug() << seat << "background size" << geometry() << size << "=" << ratio;
+        view->resetTransform();
+        view->scale(ratio, ratio);
+        view->centerOn(QPoint(size.width() / 2, size.height() / 2));
+    }
 }
 #endif
 
@@ -211,6 +253,7 @@ void VideoWidget::slotPlayerSelected(int s, QString fn) {
 #ifdef USE_GraphicsScene
         background->show();
         item->hide();
+        resizeBackground();
 #endif
     } else {
         readTimestampFile(fn);
@@ -225,8 +268,9 @@ void VideoWidget::slotPlayerSelected(int s, QString fn) {
         videoWidget->setVisible(true);
 #endif
 #ifdef USE_GraphicsScene
-        background->hide();
         item->show();
+        background->hide();
+        resizeVideo();
 #endif
         enqueue(JobActionIntro, 4);
     }
