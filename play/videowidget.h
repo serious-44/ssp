@@ -1,7 +1,7 @@
 #ifndef VIDEOWIDGET_H
 #define VIDEOWIDGET_H
 
-#include "backgroundwidget.h"
+#include "backgroundview.h"
 #include "util.h"
 
 #include <QWidget>
@@ -14,10 +14,8 @@
 #include <QMediaPlayer>
 #include <QStackedWidget>
 #include <QQueue>
-#include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QGraphicsVideoItem>
-#include <QGraphicsPixmapItem>
 
 class Job {
 public:
@@ -120,9 +118,8 @@ private:
 
     QMediaPlayer *mediaPlayer;
     QGraphicsScene *scene;
-    QGraphicsView *view;
+    BackgroundView *view;
     QGraphicsVideoItem *item;
-    QGraphicsPixmapItem *background;
 
     qint64 startTimestamp;
     qint64 endTimestamp;

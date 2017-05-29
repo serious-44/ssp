@@ -77,15 +77,13 @@ VideoWidget::VideoWidget(QWidget *parent) :
     connect(mediaPlayer, SIGNAL(positionChanged(qint64)), this, SLOT(slotPositionChanged(qint64)));
     connect(mediaPlayer, SIGNAL(error(QMediaPlayer::Error)), this, SLOT(slotMediaPlayerError(QMediaPlayer::Error)));
 
-    view = new QGraphicsView(this);
+    view = new BackgroundView(this);
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     view->setFrameStyle(QFrame::NoFrame);
     scene = new QGraphicsScene(view);
     view->setScene(scene);
-    background = new QGraphicsPixmapItem();
-    scene->addItem(background);
     item = new QGraphicsVideoItem();
     mediaPlayer->setVideoOutput(item);
     scene->addItem(item);
@@ -102,23 +100,7 @@ VideoWidget::~VideoWidget() {
 
 void VideoWidget::init(int s) {
     seat = s;
-
-    QPixmap image;
-    if (seat == 1) {
-        image.load("://image/boucher-swan.jpg");
-    } else if (seat == 2) {
-        image.load("://image/goya.jpg");
-    } else if (seat == 3) {
-        image.load("://image/fragonard.jpg");
-    } else if (seat == 4) {
-        image.load("://image/boucher.jpg");
-    } else if (seat == 5) {
-        image.load("://image/rembrandt.jpg");
-    } else {
-        image.load("://misc/1px.png");
-    }
-    background->setPixmap(image);
-    resizeVideo();
+    view->init(s);
 }
 
 void VideoWidget::resizeEvent(QResizeEvent *event) {
@@ -152,22 +134,6 @@ void VideoWidget::slotMetaDataAvailableChanged(bool available) {
 
 void VideoWidget::resizeVideo() {
     if (!active || videoWidth <= 0 || videoHeight <= 0) {
-        if (seat > 0) {
-            item->setSize(QSize(10000, 10000)); // no video without this line ???
-            QSize size(background->pixmap().size());
-            double ratio = (double)(width()) / (double)size.width();
-            double yRatio = (double)(height()) / (double)size.height();
-            if (yRatio > ratio) {
-                ratio = yRatio;
-            }
-            if (ratio == 0) {
-                ratio = 1;
-            }
-            //qDebug() << seat << "background size" << geometry() << size.width() << size.height() << "=" << ratio;
-            view->resetTransform();
-            view->scale(ratio, ratio);
-            view->centerOn(QPoint(size.width() / 2, size.height() / 2));
-        }
     } else {
         item->setSize(item->nativeSize());
         double ratio = (double)(width()) / (double)videoWidth;
@@ -194,7 +160,6 @@ void VideoWidget::slotPlayerSelected(int s, QString fn) {
     checkVideoQueue();
 
     if (fn.isEmpty()) {
-        //background->show();
     } else {
         readTimestampFile(fn);
 
@@ -202,8 +167,6 @@ void VideoWidget::slotPlayerSelected(int s, QString fn) {
         avi.replace(Util::regPatternTs, ".avi");
         mediaPlayer->setMedia(QUrl::fromLocalFile(avi));
         active = true;
-
-        //background->hide();
 
         enqueue(JobActionIntro, 4);
     }
