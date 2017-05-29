@@ -5,18 +5,23 @@ You play serious Texas Hold'em against 1-5 non-player characters. The purpose of
 
 --- Nerve-racking bugs
 
-On Windows the the videos are too bad. There are jumps and flashes. The HD videos have black areas. And sometimes the video don't start. You have to resize the window.
+On Windows the the videos are too bad.
+- There are jumps and flashes.
+- The HD videos have black areas.
+- The clip-editor doesn't show the correct frame.
+- Previev images extrected from the videos are messed up.
+- Sometimes the video don't start. You have to resize the window.
 
-I'm told, this task needs a different video-library. But this is not on my top priority list, I am using Linux. Sorry.
+I'm told, this task needs a different video-library. But this is not on my top priority list, I am using Linux. Are there Windows programmers, who want to play serious strip poker?
 
 Version 0.0.0  Use at your own risk.
 
 
 ---- Installing the program
 
-There is a Windwos binary. Up to now, there is no installer. Just download the zip. Unpack it and start ssp.exe from your file explorer.
+Up to now, the is no distribution. You have to compile it yourself.
 
-To run this program on Linux, you have to compile it yourself. Trolltech claims, you can also compile it in a Mac.
+Compiling has been testet on Ubuntu Linux and Windows7. Trolltech claims, you can also compile it on a Mac.
 
 
 ---- Getting the videos
