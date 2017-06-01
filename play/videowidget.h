@@ -1,7 +1,21 @@
 #ifndef VIDEOWIDGET_H
 #define VIDEOWIDGET_H
 
+#define USE_VideoWidget
+//#define USE_GraphicsScene
+
+#ifdef USE_VideoWidget
+#endif
+#ifdef USE_GraphicsScene
+#endif
+
+#ifdef USE_VideoWidget
+#include "backgroundwidget.h"
+#endif
+#ifdef USE_GraphicsScene
 #include "backgroundview.h"
+#endif
+
 #include "util.h"
 
 #include <QWidget>
@@ -14,8 +28,14 @@
 #include <QMediaPlayer>
 #include <QStackedWidget>
 #include <QQueue>
+
+#ifdef USE_VideoWidget
+#include <QVideoWidget>
+#endif
+#ifdef USE_GraphicsScene
 #include <QGraphicsScene>
 #include <QGraphicsVideoItem>
+#endif
 
 class Job {
 public:
@@ -117,9 +137,16 @@ private:
     QTimer *sequenceTimer;
 
     QMediaPlayer *mediaPlayer;
+
+#ifdef USE_VideoWidget
+    BackgroundWidget *backgroundWidget;
+    QVideoWidget *videoWidget;
+#endif
+#ifdef USE_GraphicsScene
     QGraphicsScene *scene;
     BackgroundView *view;
     QGraphicsVideoItem *item;
+#endif
 
     qint64 startTimestamp;
     qint64 endTimestamp;
