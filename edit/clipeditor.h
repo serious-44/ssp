@@ -142,6 +142,8 @@ public slots:
 
     void slotPositionChanged(qint64);
     void slotMetaDataAvailableChanged(bool available);
+    void slotMetaDataChanged(const QString &key, const QVariant &value);
+    void slotDurationChanged(qint64 dur);
     void slotMediaPlayerError(QMediaPlayer::Error err);
 
     void slotAudioBufferAvailable();
