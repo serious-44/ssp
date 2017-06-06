@@ -1869,7 +1869,7 @@ void ClipEditor::slotGenerateExtra() {
             }
         }
     }
-    if (useSnap2) {
+    if (false /*useSnap2*/) {
         int avgSnap = sumSnap / cntSnap;
         int threshold = videoWidth * videoHeight / 400;
         qDebug() << "avg snap" << avgSnap << "threshold" << videoWidth << videoHeight << "=" << threshold;
