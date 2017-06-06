@@ -201,6 +201,9 @@ private:
     QTextCursor findCursor;
     QRegExp findExpr;
 
+    int videoWidth;
+    int videoHeight;
+
     void showFatalError(QString log);
     void showError(QString log);
     void showInfo(QString log);

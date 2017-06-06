@@ -337,7 +337,26 @@ QPushButton:disabled {
     border-left: 8px transparent;
 	font-size:14px;
 	color: #404000
-}</string>
+}
+QPushButton[attention=&quot;start&quot;] {
+	border-image: url(:/danuxi1/playeraction_yellow.png) 8 8 8 8;
+    border-top: 8px transparent;
+    border-bottom: 8px transparent;
+    border-right: 8px transparent;
+    border-left: 8px transparent;
+	font-size:14px;
+    color:#ffff00
+}
+QPushButton:hover[attention=&quot;start&quot;] {
+	border-image: url(:/danuxi1/playeraction_yellow_hover.png) 8 8 8 8;
+    border-top: 8px transparent;
+    border-bottom: 8px transparent;
+    border-right: 8px transparent;
+    border-left: 8px transparent;
+	font-size:14px;
+    color:#ffff00
+}
+</string>
               </property>
               <property name="text">
                <string>Select...</string>
@@ -1993,7 +2012,26 @@ QPushButton:disabled {
     border-left: 8px transparent;
 	font-size:14px;
 	color: #404000
-}</string>
+}
+QPushButton[attention=&quot;start&quot;] {
+	border-image: url(:/danuxi1/playeraction_yellow.png) 8 8 8 8;
+    border-top: 8px transparent;
+    border-bottom: 8px transparent;
+    border-right: 8px transparent;
+    border-left: 8px transparent;
+	font-size:14px;
+    color:#ffff00
+}
+QPushButton:hover[attention=&quot;start&quot;] {
+	border-image: url(:/danuxi1/playeraction_yellow_hover.png) 8 8 8 8;
+    border-top: 8px transparent;
+    border-bottom: 8px transparent;
+    border-right: 8px transparent;
+    border-left: 8px transparent;
+	font-size:14px;
+    color:#ffff00
+}
+</string>
               </property>
               <property name="text">
                <string>Select...</string>
@@ -2370,6 +2408,9 @@ QPushButton:disabled {
             </item>
             <item alignment="Qt::AlignBottom">
              <widget class="MyActionButton" name="selectPlayer2">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -2420,7 +2461,26 @@ QPushButton:disabled {
     border-left: 8px transparent;
 	font-size:14px;
 	color: #404000
-}</string>
+}
+QPushButton[attention=&quot;start&quot;] {
+	border-image: url(:/danuxi1/playeraction_yellow.png) 8 8 8 8;
+    border-top: 8px transparent;
+    border-bottom: 8px transparent;
+    border-right: 8px transparent;
+    border-left: 8px transparent;
+	font-size:14px;
+    color:#ffff00
+}
+QPushButton:hover[attention=&quot;start&quot;] {
+	border-image: url(:/danuxi1/playeraction_yellow_hover.png) 8 8 8 8;
+    border-top: 8px transparent;
+    border-bottom: 8px transparent;
+    border-right: 8px transparent;
+    border-left: 8px transparent;
+	font-size:14px;
+    color:#ffff00
+}
+</string>
               </property>
               <property name="text">
                <string>Select...</string>
@@ -2992,150 +3052,7 @@ QRadioButton::indicator:checked {
              <property name="spacing">
               <number>0</number>
              </property>
-             <item row="1" column="1" colspan="4">
-              <widget class="QWidget" name="widget_32" native="true">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>20</horstretch>
-                 <verstretch>4</verstretch>
-                </sizepolicy>
-               </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_15">
-                <property name="spacing">
-                 <number>0</number>
-                </property>
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>0</number>
-                </property>
-                <item>
-                 <widget class="QRadioButton" name="radio1Player">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>1</horstretch>
-                    <verstretch>4</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="focusPolicy">
-                   <enum>Qt::TabFocus</enum>
-                  </property>
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ctrl-1&lt;/span&gt; Me + 1 opponent&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true"/>
-                  </property>
-                  <property name="text">
-                   <string>1</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QRadioButton" name="radio2Player">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>1</horstretch>
-                    <verstretch>4</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="focusPolicy">
-                   <enum>Qt::TabFocus</enum>
-                  </property>
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ctrl-2&lt;/span&gt; Me + 2 opponents&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true"/>
-                  </property>
-                  <property name="text">
-                   <string>2</string>
-                  </property>
-                  <property name="checked">
-                   <bool>false</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QRadioButton" name="radio3Player">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>1</horstretch>
-                    <verstretch>4</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="focusPolicy">
-                   <enum>Qt::TabFocus</enum>
-                  </property>
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ctrl-3&lt;/span&gt; Me + 3 opponents&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true"/>
-                  </property>
-                  <property name="text">
-                   <string>3</string>
-                  </property>
-                  <property name="checked">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QRadioButton" name="radio4Player">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                    <horstretch>1</horstretch>
-                    <verstretch>4</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ctrl-4&lt;/span&gt; Me + 4 opponents&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true"/>
-                  </property>
-                  <property name="text">
-                   <string>4</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QRadioButton" name="radio5Player">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>1</horstretch>
-                    <verstretch>4</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="focusPolicy">
-                   <enum>Qt::TabFocus</enum>
-                  </property>
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ctrl-5&lt;/span&gt; Me + 5 opponents&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true"/>
-                  </property>
-                  <property name="text">
-                   <string>5</string>
-                  </property>
-                  <property name="checked">
-                   <bool>false</bool>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-             <item row="14" column="1" colspan="4">
+             <item row="12" column="1" colspan="4">
               <widget class="QWidget" name="widget_54" native="true">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -3145,7 +3062,7 @@ QRadioButton::indicator:checked {
                </property>
               </widget>
              </item>
-             <item row="8" column="1" colspan="4">
+             <item row="6" column="1" colspan="4">
               <widget class="QWidget" name="widget_45" native="true">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -3155,7 +3072,7 @@ QRadioButton::indicator:checked {
                </property>
               </widget>
              </item>
-             <item row="13" column="1" colspan="4">
+             <item row="11" column="1" colspan="4">
               <widget class="QPushButton" name="buttonSaveCompilation">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -3174,7 +3091,7 @@ QRadioButton::indicator:checked {
                </property>
               </widget>
              </item>
-             <item row="5" column="3" colspan="2">
+             <item row="3" column="3" colspan="2">
               <widget class="QSpinBox" name="editSmallBlind">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -3208,7 +3125,7 @@ QRadioButton::indicator:checked {
                </property>
               </widget>
              </item>
-             <item row="18" column="1" colspan="4">
+             <item row="16" column="1" colspan="4">
               <widget class="QWidget" name="widget_58" native="true">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -3218,7 +3135,7 @@ QRadioButton::indicator:checked {
                </property>
               </widget>
              </item>
-             <item row="6" column="1" colspan="4">
+             <item row="4" column="1" colspan="4">
               <widget class="QWidget" name="widget_44" native="true">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -3228,7 +3145,7 @@ QRadioButton::indicator:checked {
                </property>
               </widget>
              </item>
-             <item row="7" column="1" colspan="2">
+             <item row="5" column="1" colspan="2">
               <widget class="QLabel" name="label_9">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -3241,7 +3158,7 @@ QRadioButton::indicator:checked {
                </property>
               </widget>
              </item>
-             <item row="5" column="1" colspan="2">
+             <item row="3" column="1" colspan="2">
               <widget class="QLabel" name="label">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -3254,17 +3171,7 @@ QRadioButton::indicator:checked {
                </property>
               </widget>
              </item>
-             <item row="2" column="1" colspan="4">
-              <widget class="QWidget" name="widget_28" native="true">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>1</verstretch>
-                </sizepolicy>
-               </property>
-              </widget>
-             </item>
-             <item row="13" column="5">
+             <item row="11" column="5">
               <widget class="QWidget" name="widget_60" native="true">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -3274,7 +3181,7 @@ QRadioButton::indicator:checked {
                </property>
               </widget>
              </item>
-             <item row="17" column="1" colspan="4">
+             <item row="15" column="1" colspan="4">
               <widget class="QPushButton" name="buttonEdit">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -3306,7 +3213,7 @@ QRadioButton::indicator:checked {
                </property>
               </widget>
              </item>
-             <item row="16" column="1" colspan="4">
+             <item row="14" column="1" colspan="4">
               <widget class="QWidget" name="widget_57" native="true">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -3316,7 +3223,7 @@ QRadioButton::indicator:checked {
                </property>
               </widget>
              </item>
-             <item row="7" column="3" colspan="2">
+             <item row="5" column="3" colspan="2">
               <widget class="QSpinBox" name="riseBlinds">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
@@ -3347,7 +3254,7 @@ QRadioButton::indicator:checked {
                </property>
               </widget>
              </item>
-             <item row="15" column="1" colspan="4">
+             <item row="13" column="1" colspan="4">
               <widget class="QPushButton" name="buttonGeneratePreviews">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -3366,7 +3273,7 @@ QRadioButton::indicator:checked {
                </property>
               </widget>
              </item>
-             <item row="13" column="0">
+             <item row="11" column="0">
               <widget class="QWidget" name="widget_61" native="true">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -4336,6 +4243,9 @@ QSlider::handle:horizontal {
             </item>
             <item>
              <widget class="QPushButton" name="pushButton_break">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -4385,6 +4295,15 @@ QPushButton:hover {
 	font-size:12px;
     color: #ffff00
 }
+QPushButton:disabled {
+	border-image: url(://danuxi1/playeraction_green.png) 8 8 8 8;
+    border-top: 8px transparent;
+    border-bottom: 8px transparent;
+    border-right: 8px transparent;
+    border-left: 8px transparent;
+	font-size:14px;
+	color: #404000
+}
 QPushButton[attention=&quot;checked&quot;] {
 	border-image: url(:/danuxi1/playeraction_green_checked.png) 8 8 8 8;
     border-top: 8px transparent;
@@ -4420,6 +4339,15 @@ QPushButton:hover[attention=&quot;start&quot;] {
     border-left: 8px transparent;
 	font-size:14px;
     color:#ffff00
+}
+QPushButton:disabled[attention=&quot;start&quot;] {
+	border-image: url(://danuxi1/playeraction_green.png) 8 8 8 8;
+    border-top: 8px transparent;
+    border-bottom: 8px transparent;
+    border-right: 8px transparent;
+    border-left: 8px transparent;
+	font-size:14px;
+	color: #404000
 }
 QPushButton[attention=&quot;continue&quot;] {
 	border-image: url(:/danuxi1/playeraction_yellow.png) 8 8 8 8;
@@ -4722,7 +4650,26 @@ QPushButton:disabled {
     border-left: 8px transparent;
 	font-size:14px;
 	color: #404000
-}</string>
+}
+QPushButton[attention=&quot;start&quot;] {
+	border-image: url(:/danuxi1/playeraction_yellow.png) 8 8 8 8;
+    border-top: 8px transparent;
+    border-bottom: 8px transparent;
+    border-right: 8px transparent;
+    border-left: 8px transparent;
+	font-size:14px;
+    color:#ffff00
+}
+QPushButton:hover[attention=&quot;start&quot;] {
+	border-image: url(:/danuxi1/playeraction_yellow_hover.png) 8 8 8 8;
+    border-top: 8px transparent;
+    border-bottom: 8px transparent;
+    border-right: 8px transparent;
+    border-left: 8px transparent;
+	font-size:14px;
+    color:#ffff00
+}
+</string>
                  </property>
                  <property name="text">
                   <string>Select...</string>
@@ -5086,7 +5033,26 @@ QPushButton:disabled {
     border-left: 8px transparent;
 	font-size:14px;
 	color: #404000
-}</string>
+}
+QPushButton[attention=&quot;start&quot;] {
+	border-image: url(:/danuxi1/playeraction_yellow.png) 8 8 8 8;
+    border-top: 8px transparent;
+    border-bottom: 8px transparent;
+    border-right: 8px transparent;
+    border-left: 8px transparent;
+	font-size:14px;
+    color:#ffff00
+}
+QPushButton:hover[attention=&quot;start&quot;] {
+	border-image: url(:/danuxi1/playeraction_yellow_hover.png) 8 8 8 8;
+    border-top: 8px transparent;
+    border-bottom: 8px transparent;
+    border-right: 8px transparent;
+    border-left: 8px transparent;
+	font-size:14px;
+    color:#ffff00
+}
+</string>
               </property>
               <property name="text">
                <string>Select...</string>
@@ -5371,11 +5337,6 @@ QPushButton:disabled {
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>radio1Player</tabstop>
-  <tabstop>radio2Player</tabstop>
-  <tabstop>radio3Player</tabstop>
-  <tabstop>radio4Player</tabstop>
-  <tabstop>radio5Player</tabstop>
   <tabstop>selectPlayer1</tabstop>
   <tabstop>selectPlayer2</tabstop>
   <tabstop>selectPlayer3</tabstop>

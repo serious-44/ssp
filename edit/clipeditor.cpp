@@ -24,7 +24,9 @@ ClipEditor::ClipEditor(QWidget *parent) :
     mediaPlayer(0),
     currentPieces(4),
     snapWasDisabled(true),
-    oldFindString("\x01\x02\x03")
+    oldFindString("\x01\x02\x03"),
+    videoWidth(0),
+    videoHeight(0)
 {
     ui->setupUi(this);
 
@@ -766,7 +768,7 @@ void ClipEditor::insertTsText(QString action, int pieces, QString modifier, bool
 
         //QString newText = QString(" %1 %2%3").arg(action).arg(pieces).arg(oldModifier);
 
-        QString newText = QString(" %1 %2 %3 %4").arg(action, -5).arg(pieces).arg(modifier, -7).arg(zoom ? " zoom" : "     ");
+        QString newText = QString(" %1 %2 %3 %4").arg(action, -5).arg(pieces).arg(modifier, -6).arg(zoom ? " zoom" : "     ");
 
         if (Util::regTimecode.indexIn(oldText) == 0) {
             replace = ui->editTs->textCursor();
@@ -784,14 +786,12 @@ void ClipEditor::insertTsText(QString action, int pieces, QString modifier, bool
                     qint64 time = Util::timecodeToTimestamp(Util::regTimecode);
 
                     time -= mediaPlayer->position();
-                    if (time < -1000 || time > 1000) {
-                        newText += "\n";
-                        newText += Util::timestampToFileTimecode(mediaPlayer->position());
-                    } else {
+                    if (time == 0) {
                         jumpToNext = true;
                     }
                 }
-            } else {
+            }
+            if (!jumpToNext) {
                 newText += "\n";
                 newText += Util::timestampToFileTimecode(mediaPlayer->position());
             }
@@ -1123,22 +1123,34 @@ void ClipEditor::slotPositionChanged(qint64 t) {
 }
 
 void ClipEditor::slotMetaDataAvailableChanged(bool available) {
-    //qDebug() << "slotMetaDataAvsilableChanged" << available;
     if (available) {
-        duration = mediaPlayer->metaData("Duration").toLongLong();
-        ui->videoView->videoChanged();
+        qint64 d = mediaPlayer->metaData("Duration").toLongLong();
+        if (d > 0) {
+            ui->videoView->videoChanged();
+            qDebug() << "slotMetaDataAvsilableChanged" << duration;
+        }
+        QVariant s = mediaPlayer->metaData("Resolution");
+        if (s.isValid()) {
+            QSize size = mediaPlayer->metaData("Resolution").toSize();
+            videoWidth = size.width();
+            videoHeight = size.height();
+            ui->videoView->videoChanged();
+        }
     }
 }
 
-void ClipEditor::slotMetaDataChanged(const QString &key, const QVariant &/*value*/) {
+void ClipEditor::slotMetaDataChanged(const QString &key, const QVariant &value) {
     if (key == "Resolution") {
-        //qDebug() << "slotMetaDataChanged" << key << value;
+        qDebug() << "slotMetaDataChanged" << key << value;
         ui->videoView->videoChanged();
+        QSize size = value.toSize();
+        videoWidth = size.width();
+        videoHeight = size.height();
     }
 }
 
 void ClipEditor::slotDurationChanged(qint64 dur) {
-    //qDebug() << "slotDurationChanged" << dur;
+    qDebug() << "slotDurationChanged" << dur;
     duration = dur;
 }
 
@@ -1532,7 +1544,21 @@ void ClipEditor::slotCheck() {
     int win_youlose[2][5] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
     int lose[2][5] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
     int lose_youwin[2][5] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
-    int show[2][5] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
+    int show[3][2][2][5] =
+    {
+        {
+            {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}},
+            {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}}
+        },
+        {
+            {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}},
+            {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}}
+        },
+        {
+            {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}},
+            {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}}
+        }
+    };
     int show_cards[2][5] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
     int show_drink[2][5] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
     int on[2][5] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
@@ -1595,7 +1621,10 @@ void ClipEditor::slotCheck() {
                     if (modifier == "drink") {
                         show_drink[zoom ? 1 : 0][pieces]++;
                     } else if (modifier == "") {
-                        show[zoom ? 1 : 0][pieces]++;
+                        int length = (nextTime - time) / 1000;
+                        if (length > 2) length = 2;
+                        int q = quiet == ClipSoundLoud ? 1 : 0;
+                        show[length][q][zoom ? 1 : 0][pieces]++;
                     } else {
                         show_cards[zoom ? 1 : 0][pieces]++;
                     }
@@ -1701,14 +1730,16 @@ void ClipEditor::slotCheck() {
                 showInfo(QString("missing %1 show drink zoom").arg(i));
             }
         }
-        if (show[0][i] == 0) {
+        if (show[0][0][0][i] + show[1][0][0][i] + show[2][0][0][i] + show[0][1][0][i] + show[1][1][0][i] + show[2][1][0][i] == 0) {
             if (i == 1 && ! has1) {
                 showInfo(QString("missing %1 show bare-handed no-zoom").arg(i));
-            } else  {
+            } else {
                 showError(QString("missing %1 show bare-handed no-zoom").arg(i));
             }
-        } else if (show[0][i] < 5) {
-            showInfo(QString("(%1 of 5) %2 show bare-handed no-zoom").arg(show[0][i]).arg(i));
+        } else {
+            if (show[2][0][0][i] < 5) {
+                showInfo(QString("%1 show bare-handed no-zoom quiet = %2 + %3 + %4 loud = %5 + %6 + %7").arg(i).arg(show[2][0][0][i]).arg(show[1][0][0][i]).arg(show[0][0][0][i]).arg(show[2][1][0][i]).arg(show[1][1][0][i]).arg(show[0][1][0][i]));
+            }
         }
         if (show[1][i] == 0) {
             if (i == 1 && ! has1) {
@@ -1716,8 +1747,10 @@ void ClipEditor::slotCheck() {
             } else  {
                 showError(QString("missing %1 show bare-handed zoom").arg(i));
             }
-        } else if (show[1][i] < 5) {
-            showInfo(QString("(%1 of 5) %2 show bare-handed zoom").arg(show[1][i]).arg(i));
+        } else {
+            if (show[2][0][1][i] < 5) {
+                showInfo(QString("%1 show bare-handed zoom quiet = %2 + %3 + %4 loud = %5 + %6 + %7").arg(i).arg(show[2][0][1][i]).arg(show[1][0][1][i]).arg(show[0][0][1][i]).arg(show[2][1][1][i]).arg(show[1][1][1][i]).arg(show[0][1][1][i]));
+            }
         }
         if (show_cards[0][i] == 0) {
             showInfo(QString("missing %1 show cards no-zoom").arg(i));
@@ -1740,6 +1773,12 @@ void ClipEditor::slotGenerateExtra() {
     QVector<int> lPieces;
     QVector<bool> lZoom;
     QVector<ClipSound> lQuiet;
+    QVector<qint64> oStart;
+    QVector<qint64> oEnd;
+    QVector<int> oPieces1;
+    QVector<int> oPieces2;
+    QVector<bool> oZoom;
+    QVector<ClipSound> oQuiet;
 
     QTextDocument *document = ui->editTs->document();
     QTextBlock line = document->firstBlock();
@@ -1767,13 +1806,35 @@ void ClipEditor::slotGenerateExtra() {
             }
             if (next.isValid()) {
                 if (action == "drop" || action == "win" || action == "lose") {
-                //if (action == "drop") {
-                //if (quiet && ((action == "drop" && modifier != "throw") || action == "win" || action == "lose")) {
                     lStart.append(time);
                     lEnd.append(nextTime);
                     lPieces.append(pieces);
                     lZoom.append(zoom);
                     lQuiet.append(quiet);
+                }
+                if (action == "intro") {
+                    oStart.append(time);
+                    oEnd.append(nextTime);
+                    oPieces1.append(0);
+                    oPieces2.append(pieces);
+                    oZoom.append(zoom);
+                    oQuiet.append(quiet);
+                }
+                if (action == "off") {
+                    oStart.append(time);
+                    oEnd.append(nextTime);
+                    oPieces1.append(pieces+1);
+                    oPieces2.append(pieces);
+                    oZoom.append(zoom);
+                    oQuiet.append(quiet);
+                }
+                if (action == "on") {
+                    oStart.append(time);
+                    oEnd.append(nextTime);
+                    oPieces1.append(pieces-1);
+                    oPieces2.append(pieces);
+                    oZoom.append(zoom);
+                    oQuiet.append(quiet);
                 }
 
                 time = nextTime;
@@ -1790,6 +1851,55 @@ void ClipEditor::slotGenerateExtra() {
 
     QString buffer;
     QTextStream collect(&buffer);
+
+    bool useSnap2 = true;
+    long sumSnap = 0;
+    long cntSnap = 0;
+
+    for (int i = 0; i < oStart.length(); i++) {
+        int tfs = oStart[i] * 25 / 1000;
+        int tfe = oEnd[i] * 25 / 1000;
+        if (snap2.size() < tfe ) {
+            useSnap2 = false;
+        } else {
+            qDebug() << "snap" << tfs << "=" << snap2[tfs] << snap2[tfs+1] << snap2[tfe-1] << snap2[tfe];
+            for (int i = tfs+5; i < tfe-5; i++) {
+                sumSnap += snap2[i];
+                cntSnap++;
+            }
+        }
+    }
+    if (useSnap2) {
+        int avgSnap = sumSnap / cntSnap;
+        int threshold = videoWidth * videoHeight / 400;
+        qDebug() << "avg snap" << avgSnap << "threshold" << videoWidth << videoHeight << "=" << threshold;
+
+        for (int i = 0; i < oStart.length(); i++) {
+            int tfs = oStart[i] * 25 / 1000;
+            int tfe = oEnd[i] * 25 / 1000;
+            int fs = tfs;
+            for (int f = tfs+1; f <= tfe; f++) {
+                if (f == tfe || snap2[f] > threshold) {
+                    sumSnap = 0;
+                    cntSnap = 0;
+                    for (int j = fs+5; j < f-5; j++) {
+                        sumSnap += snap2[j];
+                        cntSnap++;
+                    }
+                    int avg = cntSnap > 0 ? sumSnap / cntSnap : 0;
+                    qDebug() << "clip" << oPieces1[i] << oPieces2[i] << fs << f-1 << avg << (avg < avgSnap ? "zoom" : "no");
+                    collect << Util::formatTsLine(fs * 1000 / 25, "show", oPieces1[i] * 10 + oPieces2[i], "", avg < avgSnap, ClipSoundLoud);
+                    collect << "\n";
+                    collect << Util::formatTsLine(f * 1000 / 25, "-", 0, "", false, ClipSoundLoud);
+                    collect << "\n";
+                    fs = f;
+                }
+            }
+        }
+        collect << "\n";
+    }
+
+
     for (int i = 0; i < lStart.length(); i++) {
         collect << Util::formatTsLine(lStart[i], "show", lPieces[i], "", lZoom[i], lQuiet[i]);
         collect << "\n";

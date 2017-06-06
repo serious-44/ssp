@@ -416,12 +416,6 @@ void GameTableImpl::init(ConfigFile *c, Log *l) {
 
     connect( ui->checkBox_Cheat, SIGNAL( clicked()), this, SLOT ( slotCheckboxCheatClicked() ) );
 
-    connect( ui->radio1Player, SIGNAL( clicked()), this, SLOT ( slotRadio1PlayerClicked() ) );
-    connect( ui->radio2Player, SIGNAL( clicked()), this, SLOT ( slotRadio2PlayerClicked() ) );
-    connect( ui->radio3Player, SIGNAL( clicked()), this, SLOT ( slotRadio3PlayerClicked() ) );
-    connect( ui->radio4Player, SIGNAL( clicked()), this, SLOT ( slotRadio4PlayerClicked() ) );
-    connect( ui->radio5Player, SIGNAL( clicked()), this, SLOT ( slotRadio5PlayerClicked() ) );
-
     connect( ui->pushButton_Wine, SIGNAL( clicked()), this, SLOT ( slotButtonWineClicked() ) );
 
     //connect( tabWidget_Left, SIGNAL( currentChanged(int) ), this, SLOT( tabSwitchAction() ) ); //connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), this, SLOT( sendChatMessage() ) );
@@ -494,34 +488,14 @@ void GameTableImpl::init(ConfigFile *c, Log *l) {
     psThread->start(QThread::LowPriority);
 
     QSettings settings;
-    if (settings.contains("gametable/numPlayer")) {
-        switch (settings.value("gametable/numPlayer").toInt()) {
-            case 1:
-                ui->radio1Player->setChecked(true);
-                slotRadio1PlayerClicked();
-                break;
-            case 2:
-                ui->radio2Player->setChecked(true);
-                slotRadio2PlayerClicked();
-                break;
-            case 3:
-                ui->radio3Player->setChecked(true);
-                slotRadio3PlayerClicked();
-                break;
-            case 4:
-                ui->radio4Player->setChecked(true);
-                slotRadio4PlayerClicked();
-                break;
-            case 5:
-                ui->radio5Player->setChecked(true);
-                slotRadio5PlayerClicked();
-                break;
-        }
+    if (settings.contains("gametable/smallBlind")) {
         ui->horizontalSlider_speed->setValue(settings.value("gametable/speed").toInt());
         ui->editSmallBlind->setValue(settings.value("gametable/smallBlind").toInt());
         ui->riseBlinds->setValue(settings.value("gametable/riseBlind").toInt());
     }
 
+    ui->selectPlayer1->setProperty("attention", "start");
+    ui->selectPlayer1->setStyleSheet(ui->selectPlayer1->styleSheet());
 }
 
 GameTableImpl::~GameTableImpl()
@@ -536,23 +510,16 @@ void GameTableImpl::prepareClose() {
     bool done = psThread->wait(1000);
 
     QSettings settings;
-    if (ui->radio1Player->isChecked()) {
-        settings.setValue("gametable/numPlayer", 1);
-    } else if (ui->radio2Player->isChecked()) {
-        settings.setValue("gametable/numPlayer", 2);
-    } else if (ui->radio3Player->isChecked()) {
-        settings.setValue("gametable/numPlayer", 3);
-    } else if (ui->radio4Player->isChecked()) {
-        settings.setValue("gametable/numPlayer", 4);
-    } else if (ui->radio5Player->isChecked()) {
-        settings.setValue("gametable/numPlayer", 5);
-    }
     settings.setValue("gametable/speed", ui->horizontalSlider_speed->value());
     settings.setValue("gametable/smallBlind", ui->editSmallBlind->value());
     settings.setValue("gametable/riseBlind", ui->riseBlinds->value());
 }
 
 void GameTableImpl::startNewGame() {
+    for (int i = 1; i <= 5; i++) {
+        selectPlayerButtonArray[i]->setProperty("attention", "normal");
+        selectPlayerButtonArray[i]->setStyleSheet(selectPlayerButtonArray[i]->styleSheet());
+    }
     GameData gameData;
     gameData.maxNumberOfPlayers = 6;
     gameData.startMoney = 5000;
@@ -564,18 +531,16 @@ void GameTableImpl::startNewGame() {
     gameData.guiSpeed = ui->horizontalSlider_speed->value();
 
     StartData startData;
-    startData.numberOfPlayers = 6;
-    if (ui->radio4Player->isChecked()) {
-        startData.numberOfPlayers = 5;
-    }
-    if (ui->radio3Player->isChecked()) {
-        startData.numberOfPlayers = 4;
-    }
-    if (ui->radio2Player->isChecked()) {
-        startData.numberOfPlayers = 3;
-    }
-    if (ui->radio1Player->isChecked()) {
+    if (tsFileName[2].isEmpty()) {
         startData.numberOfPlayers = 2;
+    } else if (tsFileName[3].isEmpty()) {
+        startData.numberOfPlayers = 3;
+    } else if (tsFileName[4].isEmpty()) {
+        startData.numberOfPlayers = 4;
+    } else if (tsFileName[5].isEmpty()) {
+        startData.numberOfPlayers = 5;
+    } else {
+        startData.numberOfPlayers = 6;
     }
     startData.startDealerPlayerId = 0;
 
@@ -585,7 +550,6 @@ void GameTableImpl::startNewGame() {
 
     PlayerDataList playerDataList;
     for(int i = 0; i < startData.numberOfPlayers; i++) {
-
         //Namen und Avatarpfad abfragen
         ostringstream myName;
         if (i==0) {
@@ -630,7 +594,7 @@ void GameTableImpl::startNewGame() {
     for (it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
         if ((*it_c)->getMyID()) {
             waitingForVideo |= 1 << (*it_c)->getMyID();
-            //qDebug() << "emit New Game" << (*it_c)->getMyID();
+            qDebug() << "emit New Game" << (*it_c)->getMyID();
             signalPlayerAction((*it_c)->getMyID(), JobActionNewGame, piecesOfAmount((*it_c)->getMyCash()), true);
             refreshButton();
         }
@@ -2442,11 +2406,6 @@ void GameTableImpl::postRiverRunAnimation6()
         ui->pushButton_break->setProperty("attention", "start");
         ui->pushButton_break->setStyleSheet(ui->pushButton_break->styleSheet());
         ui->pushButton_break->setText("Start");
-        ui->radio1Player->setEnabled(true);
-        ui->radio2Player->setEnabled(true);
-        ui->radio3Player->setEnabled(true);
-        ui->radio4Player->setEnabled(true);
-        ui->radio5Player->setEnabled(true);
         ui->editSmallBlind->setEnabled(true);
         ui->riseBlinds->setEnabled(true);
         ui->horizontalSlider_bet->setEnabled(false);
@@ -2687,11 +2646,6 @@ void GameTableImpl::breakButtonClicked()
         ui->pushButton_break->setText("Pause");
 
         if(currentGameOver) {
-            ui->radio1Player->setEnabled(false);
-            ui->radio2Player->setEnabled(false);
-            ui->radio3Player->setEnabled(false);
-            ui->radio4Player->setEnabled(false);
-            ui->radio5Player->setEnabled(false);
             ui->editSmallBlind->setEnabled(false);
             ui->riseBlinds->setEnabled(false);
             ui->pushButton_Wine->setEnabled(true);
@@ -2766,21 +2720,6 @@ void GameTableImpl::keyPressEvent ( QKeyEvent * event )
         }
         if (event->key() == Qt::Key_E) {
             ui->buttonEdit->click();
-        }
-        if (event->key() == Qt::Key_1) {
-            ui->radio1Player->click();
-        }
-        if (event->key() == Qt::Key_2) {
-            ui->radio2Player->click();
-        }
-        if (event->key() == Qt::Key_3) {
-            ui->radio3Player->click();
-        }
-        if (event->key() == Qt::Key_4) {
-            ui->radio4Player->click();
-        }
-        if (event->key() == Qt::Key_5) {
-            ui->radio5Player->click();
         }
         if (event->key() == Qt::Key_O) {
             ui->selectPlayer1->click();
@@ -3402,22 +3341,88 @@ void GameTableImpl::selectPlayerClicked(int seat) {
             if (seat > 5) {
                 seat = 1;
             }
-            if (seat > 4 && ui->radio4Player->isChecked()) {
-                seat = 1;
-            }
-            if (seat > 3 && ui->radio3Player->isChecked()) {
-                seat = 1;
-            }
-            if (seat > 2 && ui->radio2Player->isChecked()) {
-                seat = 1;
-            }
-            if (seat > 1 && ui->radio1Player->isChecked()) {
-                seat = 1;
-            }
             if (seat == startSeat) {
                 i = 99;
             }
         }
+    }
+
+    if (tsFileName[1].isEmpty()) {
+        ui->pushButton_break->setDisabled(true);
+        selectPlayerButtonArray[1]->setProperty("attention", currentGameOver ? "start" : "normal");
+        selectPlayerButtonArray[1]->setStyleSheet(selectPlayerButtonArray[1]->styleSheet());
+        selectPlayerButtonArray[2]->setDisabled(true);
+        selectPlayerButtonArray[3]->setDisabled(true);
+        selectPlayerButtonArray[4]->setDisabled(true);
+        selectPlayerButtonArray[5]->setDisabled(true);
+    } else if (tsFileName[2].isEmpty()) {
+        ui->pushButton_break->setDisabled(false);
+        selectPlayerButtonArray[1]->setProperty("attention", "normal");
+        selectPlayerButtonArray[1]->setStyleSheet(selectPlayerButtonArray[1]->styleSheet());
+        selectPlayerButtonArray[2]->setProperty("attention", currentGameOver ? "start" : "normal");
+        selectPlayerButtonArray[2]->setStyleSheet(selectPlayerButtonArray[2]->styleSheet());
+        selectPlayerButtonArray[2]->setDisabled(false);
+        selectPlayerButtonArray[3]->setDisabled(true);
+        selectPlayerButtonArray[4]->setDisabled(true);
+        selectPlayerButtonArray[5]->setDisabled(true);
+    } else if (tsFileName[3].isEmpty()) {
+        ui->pushButton_break->setDisabled(false);
+        selectPlayerButtonArray[1]->setProperty("attention", "normal");
+        selectPlayerButtonArray[1]->setStyleSheet(selectPlayerButtonArray[1]->styleSheet());
+        selectPlayerButtonArray[2]->setProperty("attention", "normal");
+        selectPlayerButtonArray[2]->setStyleSheet(selectPlayerButtonArray[2]->styleSheet());
+        selectPlayerButtonArray[2]->setDisabled(false);
+        selectPlayerButtonArray[3]->setProperty("attention", currentGameOver ? "start" : "normal");
+        selectPlayerButtonArray[3]->setStyleSheet(selectPlayerButtonArray[3]->styleSheet());
+        selectPlayerButtonArray[3]->setDisabled(false);
+        selectPlayerButtonArray[4]->setDisabled(true);
+        selectPlayerButtonArray[5]->setDisabled(true);
+    } else if (tsFileName[4].isEmpty()) {
+        ui->pushButton_break->setDisabled(false);
+        selectPlayerButtonArray[1]->setProperty("attention", "normal");
+        selectPlayerButtonArray[1]->setStyleSheet(selectPlayerButtonArray[1]->styleSheet());
+        selectPlayerButtonArray[2]->setProperty("attention", "normal");
+        selectPlayerButtonArray[2]->setStyleSheet(selectPlayerButtonArray[2]->styleSheet());
+        selectPlayerButtonArray[2]->setDisabled(false);
+        selectPlayerButtonArray[3]->setProperty("attention", "normal");
+        selectPlayerButtonArray[3]->setStyleSheet(selectPlayerButtonArray[3]->styleSheet());
+        selectPlayerButtonArray[3]->setDisabled(false);
+        selectPlayerButtonArray[4]->setProperty("attention", currentGameOver ? "start" : "normal");
+        selectPlayerButtonArray[4]->setStyleSheet(selectPlayerButtonArray[4]->styleSheet());
+        selectPlayerButtonArray[4]->setDisabled(false);
+        selectPlayerButtonArray[5]->setDisabled(true);
+    } else if (tsFileName[5].isEmpty()) {
+        ui->pushButton_break->setDisabled(false);
+        selectPlayerButtonArray[1]->setProperty("attention", "normal");
+        selectPlayerButtonArray[1]->setStyleSheet(selectPlayerButtonArray[1]->styleSheet());
+        selectPlayerButtonArray[2]->setProperty("attention", "normal");
+        selectPlayerButtonArray[2]->setStyleSheet(selectPlayerButtonArray[2]->styleSheet());
+        selectPlayerButtonArray[2]->setDisabled(false);
+        selectPlayerButtonArray[3]->setProperty("attention", "normal");
+        selectPlayerButtonArray[3]->setStyleSheet(selectPlayerButtonArray[3]->styleSheet());
+        selectPlayerButtonArray[3]->setDisabled(false);
+        selectPlayerButtonArray[4]->setProperty("attention", "normal");
+        selectPlayerButtonArray[4]->setStyleSheet(selectPlayerButtonArray[4]->styleSheet());
+        selectPlayerButtonArray[4]->setDisabled(false);
+        selectPlayerButtonArray[4]->setProperty("attention", currentGameOver ? "start" : "normal");
+        selectPlayerButtonArray[4]->setStyleSheet(selectPlayerButtonArray[5]->styleSheet());
+        selectPlayerButtonArray[5]->setDisabled(false);
+    } else {
+        ui->pushButton_break->setDisabled(false);
+        selectPlayerButtonArray[1]->setProperty("attention", "normal");
+        selectPlayerButtonArray[1]->setStyleSheet(selectPlayerButtonArray[1]->styleSheet());
+        selectPlayerButtonArray[2]->setProperty("attention", "normal");
+        selectPlayerButtonArray[2]->setStyleSheet(selectPlayerButtonArray[2]->styleSheet());
+        selectPlayerButtonArray[2]->setDisabled(false);
+        selectPlayerButtonArray[3]->setProperty("attention", "normal");
+        selectPlayerButtonArray[3]->setStyleSheet(selectPlayerButtonArray[3]->styleSheet());
+        selectPlayerButtonArray[3]->setDisabled(false);
+        selectPlayerButtonArray[4]->setProperty("attention", "normal");
+        selectPlayerButtonArray[4]->setStyleSheet(selectPlayerButtonArray[4]->styleSheet());
+        selectPlayerButtonArray[4]->setDisabled(false);
+        selectPlayerButtonArray[4]->setProperty("attention", "normal");
+        selectPlayerButtonArray[4]->setStyleSheet(selectPlayerButtonArray[5]->styleSheet());
+        selectPlayerButtonArray[5]->setDisabled(false);
     }
 }
 
@@ -3514,61 +3519,6 @@ void GameTableImpl::slotCheckboxCheatClicked() {
     if (currentGame && currentGame->getCurrentHand()) {
         refreshCardsChance(currentGame->getCurrentHand()->getCurrentRound(), false);
     }
-}
-
-void GameTableImpl::slotRadio1PlayerClicked() {
-    ui->selectPlayer2->setEnabled(false);
-    ui->selectPlayer3->setEnabled(false);
-    ui->selectPlayer4->setEnabled(false);
-    ui->selectPlayer5->setEnabled(false);
-    for (int seat = 2; seat <= 5; seat++) {
-        tsFileName[seat] = "";
-        groupBoxArray[seat]->setTsFileName("");
-        selectPlayerButtonArray[seat]->setText("Select...");
-        signalPlayerSelected(seat, "");
-    }
-}
-void GameTableImpl::slotRadio2PlayerClicked() {
-    ui->selectPlayer2->setEnabled(true);
-    ui->selectPlayer3->setEnabled(false);
-    ui->selectPlayer4->setEnabled(false);
-    ui->selectPlayer5->setEnabled(false);
-    for (int seat = 3; seat <= 5; seat++) {
-        tsFileName[seat] = "";
-        groupBoxArray[seat]->setTsFileName("");
-        selectPlayerButtonArray[seat]->setText("Select...");
-        signalPlayerSelected(seat, "");
-    }
-}
-void GameTableImpl::slotRadio3PlayerClicked() {
-    ui->selectPlayer2->setEnabled(true);
-    ui->selectPlayer3->setEnabled(true);
-    ui->selectPlayer4->setEnabled(false);
-    ui->selectPlayer5->setEnabled(false);
-    for (int seat = 4; seat <= 5; seat++) {
-        tsFileName[seat] = "";
-        groupBoxArray[seat]->setTsFileName("");
-        selectPlayerButtonArray[seat]->setText("Select...");
-        signalPlayerSelected(seat, "");
-    }
-}
-void GameTableImpl::slotRadio4PlayerClicked() {
-    ui->selectPlayer2->setEnabled(true);
-    ui->selectPlayer3->setEnabled(true);
-    ui->selectPlayer4->setEnabled(true);
-    ui->selectPlayer5->setEnabled(false);
-    for (int seat = 5; seat <= 5; seat++) {
-        tsFileName[seat] = "";
-        groupBoxArray[seat]->setTsFileName("");
-        selectPlayerButtonArray[seat]->setText("Select...");
-        signalPlayerSelected(seat, "");
-    }
-}
-void GameTableImpl::slotRadio5PlayerClicked() {
-    ui->selectPlayer2->setEnabled(true);
-    ui->selectPlayer3->setEnabled(true);
-    ui->selectPlayer4->setEnabled(true);
-    ui->selectPlayer5->setEnabled(true);
 }
 
 void GameTableImpl::slotShowInfo(QString txt) {

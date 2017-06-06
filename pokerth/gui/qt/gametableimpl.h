@@ -324,12 +324,6 @@ public slots:
     void slotShowError(QString txt);
     void slotShowFatalError(QString txt);
 
-    void slotRadio1PlayerClicked();
-    void slotRadio2PlayerClicked();
-    void slotRadio3PlayerClicked();
-    void slotRadio4PlayerClicked();
-    void slotRadio5PlayerClicked();
-
     void slotButtonWineClicked();
 
 private:
