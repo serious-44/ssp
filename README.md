@@ -5,21 +5,18 @@ You play serious Texas Hold'em against 1-5 non-player characters. The purpose of
 
 --- Nerve-racking bugs
 
-On Windows the the videos are too bad.
-- There are jumps and flashes.
-- The HD videos have black areas.
-- The clip-editor doesn't show the correct frame.
-- Previev images extrected from the videos are messed up.
-- Sometimes the video don't start. You have to resize the window.
+On Windows the the videos are too faulty.
 
-I'm told, this task needs a different video-library. But this is not on my top priority list, I am using Linux. Are there Windows programmers, who want to play serious strip poker?
+There are jumps and flashes. The HD videos have black areas. The clip-editor doesn't show the correct frame. Previev images extrected from the videos are messed up. And sometimes the video don't start. You have to resize the window.
+
+I'm told, the program just needs a different video-library. But this is not on my top priority list, I am using Linux. Are there Windows programmers, who want to play serious strip poker?
 
 Version 0.0.0  Use at your own risk.
 
 
 ---- Installing the program
 
-Up to now, the is no distribution. You have to compile it yourself.
+Up to now, there is no distribution. You have to compile it yourself.
 
 Compiling has been testet on Ubuntu Linux and Windows7. Trolltech claims, you can also compile it on a Mac.
 
@@ -40,7 +37,9 @@ I don't know how to extract the clip markers from the original files. If you fig
 
 So you have to assemble a text file with timestamps and clip descriptions. This program contains a clip-editor to build the timestamp files for your girls yourself.
 
-May be, you find some timestamp files where you found the vsp2movie3 program.
+You find some timestamp files in a different Github repository. https://github.com/serious-44/ssp-data
+
+You want to share your timestamp files? In my opinion, the most easy way is to fork and upload to https://github.com/serious-44/ssp-data .
 
 
 ---- Getting the preview images
@@ -59,13 +58,16 @@ For each opponent put the 3 files into the same directory.
 - tory.jpg
 - tory.ts
 
-Start the program, click the "number of opponents" radio-button.
-Select your opponents.
--  Choose a *.tsc compilation or some *.ts timestamp files.
--  Or play serious Texas Hold'en without the distracting girls.
-Click on "start".
+Start the program. Select your opponents - Choose a *.tsc compilation or some *.ts timestamp files. And click on "start".
 
 Basically this is a modification of the PokerTH game. Please consult the user guide from https://www.pokerth.net/ .
+
+
+---- Cheating
+
+The "cheat" button on the statistics tab calulates the probability to win this hand. But it doesn't know the cards that have not yet been dealed.
+
+In the long run, you will win the game. And it doesn't spoil the fun.
 
 
 ---- Edit timestamp files
@@ -73,7 +75,7 @@ Basically this is a modification of the PokerTH game. Please consult the user gu
 Click the "Edit Video" button.
 You will get a new window. It contains a tab with a help page.
 
-The new videos are easier. The gestures are exaggerated. And you will find enough clips for all categories.
+The recent videos are easier. The gestures are exaggerated. And you will find enough clips for all categories.
 
 
 ---- Compiling the source code
@@ -109,8 +111,6 @@ This is Github. Just fork and let me know, whether I am allowed to pull your imp
 
 Probably, you will find all people interested in this program where you found vsp2movie3. So I suggest to discuss this program also at this place.
 
-You want to share your timestamp files? Anybody volunteer to organize and disseminate the collection?
-
-Please report bugs on github issue tracker.
+Please report bugs and ideas for improvements on the github issue tracker.
 https://github.com/serious-44/ssp/issues
 
