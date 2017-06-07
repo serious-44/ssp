@@ -28,7 +28,7 @@ This distribution does not include any videos :-(
 But you can use the girls, you bought from Torquemada.
 This company made 4 keys public, so you can download 4 girls for free.
 
-If don't know how to convert the proprietary files, ask your favorite search engine for vsp2movie3.
+If you don't know how to convert the proprietary files, ask your favorite search engine for vsp2movie3.
 
 
 ---- Getting the timestamp files
