@@ -5,7 +5,7 @@ You play serious Texas Hold'em against 1-5 non-player characters. The purpose of
 
 --- Nerve-racking bugs
 
-On Windows the the videos are too faulty.
+On Windows the videos are too faulty.
 
 There are jumps and flashes. The HD videos have black areas. The clip-editor doesn't show the correct frame. Previev images extrected from the videos are messed up. And sometimes the video don't start. You have to resize the window.
 
