@@ -39,7 +39,7 @@ So you have to assemble a text file with timestamps and clip descriptions. This 
 
 You find some timestamp files in a different Github repository. https://github.com/serious-44/ssp-data
 
-You want to share your timestamp files? In my opinion, the most easy way is to fork and upload to https://github.com/serious-44/ssp-data .
+You want to share your timestamp files? In my opinion, the most easy way is to fork and upload to Github
 
 
 ---- Getting the preview images
@@ -109,7 +109,7 @@ This is Github. Just fork and let me know, whether I am allowed to pull your imp
 
 ---- Discussions
 
-Probably, you will find all people interested in this program where you found vsp2movie3. So I suggest to discuss this program also at this place.
+Probably you'll find all those who are interested in this game where you found vsp2movie3. So I suggest you discuss it in this forum.
 
 Please report bugs and ideas for improvements on the github issue tracker.
 https://github.com/serious-44/ssp/issues
